@@ -1,0 +1,66 @@
+.contactus {
+    width: 100%;
+    margin-bottom: 8rem ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem ;
+    padding: 0 2rem ;
+}
+
+.contactus img {
+    width: 30rem ;
+}
+
+@media only screen and (max-width: 1000px) {
+    .contactus img {
+        width: 20rem ;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .contactus {
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .contactus img {
+        width: 80% ;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .contactus img {
+        width: 130% ;
+        object-fit: cover;
+        object-position: top;
+    }
+}
+
+.contactus .form {
+    width: 30rem ;
+    outline:#fff solid 0.1rem ;
+    outline-offset: 1.5rem ;
+    border-radius: 1rem ;
+    padding: 2rem 1rem ;
+    background-color: #D4F1F4;
+}
+
+
+@media only screen and (max-width: 550px) {
+    .contactus .form {
+        width: 20rem ;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .contactus .form {
+        width: 100% ;
+        padding: 1rem ;
+    }
+}
+
+.contactus .form p {
+    font-size: 1.8rem ;
+    margin-bottom: 2rem ;
+    text-align: center;
+}

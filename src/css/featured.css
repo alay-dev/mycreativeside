@@ -1,0 +1,30 @@
+.featured {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(15rem,1fr ) );
+    gap: 2rem ;
+    justify-content: center ;
+    align-items: center;
+    margin: auto;
+    width: 80%;
+    margin-bottom: 6rem ;
+    border-top: 2px solid #fff;
+    padding: 3rem 0 ;
+    border-bottom: 2px solid #fff;
+}
+
+@media only screen and (max-width: 500px) {
+    .featured img {
+        width: 15rem !important;
+        height: 18rem !important;
+    }
+}
+
+
+.featured img {
+    width: 100%;
+    max-width: 20rem ;
+    height: 30rem ;
+    border-radius: 1rem ;
+    box-shadow: 1px 1px 20px rgba(0,0,0,0.2);
+    margin: auto;
+}

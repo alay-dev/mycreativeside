@@ -1,0 +1,29 @@
+.contribution {
+  margin-bottom: 10rem;
+}
+
+.contribution__bg {
+  background: #d4f1f4;
+  padding: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28rem;
+  border-radius: 1rem;
+}
+
+@media only screen and (max-width: 450px) {
+  .contribution__bg {
+    width: 20rem;
+  }
+}
+
+.contribution__bg p {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.btn__cont.modal {
+  justify-content: flex-end;
+}

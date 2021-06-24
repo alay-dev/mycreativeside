@@ -1,0 +1,46 @@
+.signup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url("../img/signupbg.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  gap: 6rem;
+  padding-top: 2rem;
+}
+
+.signup .signup__card {
+  background-color: #d4f1f4;
+  width: 25rem;
+}
+
+.signup h4 {
+  margin-bottom: 3rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.signup img {
+  width: 40rem;
+}
+
+@media only screen and (max-width: 980px) {
+  .signup img {
+    width: 25rem;
+  }
+}
+
+@media only screen and (max-width: 710px) {
+  .signup img {
+    width: 18rem;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .signup {
+    flex-wrap: wrap;
+    padding: 4rem 0;
+  }
+}

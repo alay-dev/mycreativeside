@@ -1,0 +1,54 @@
+.login {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("../img/loginbg.svg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 4rem;
+}
+
+.login h4 {
+  margin-bottom: 3rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.login .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.login .login__card {
+  width: 22rem;
+  background: #d4f1f4;
+}
+
+@media only screen and (max-width: 340px) {
+  .login {
+    padding: 6rem 0 2rem 0;
+  }
+  .login .login__card {
+    width: 18rem;
+  }
+}
+
+.social_login_cont {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login p {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.4rem;
+}
