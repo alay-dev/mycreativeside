@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
 import Signup from "./pages/Signup";
 import Post from "./pages/Post";
+eceade;
 import Footer from "./components/Footer";
 
 function App() {
