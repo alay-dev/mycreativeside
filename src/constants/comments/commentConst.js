@@ -1,0 +1,4 @@
+export const SET_ALL_COMMENT = "SET_ALL_COMMENT";
+export const SET_COMMENT = "SET_COMMENT";
+export const SET_COMMENT_USER_ID = "SET_COMMENT_USER_ID";
+export const RESET_COMMENT = "RESET_COMMENT";
