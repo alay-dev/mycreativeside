@@ -100,7 +100,6 @@ class Login extends Component {
                 variant="contained"
                 onClick={() => {
                   do_login(user);
-                  history.push("/");
                 }}
               >
                 Login

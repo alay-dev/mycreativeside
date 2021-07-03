@@ -11,7 +11,7 @@ class Home extends Component {
     super(props);
   }
   componentDidMount() {
-    // this.props.get_all_posts();
+    this.props.get_all_posts();
   }
   render() {
     const { login } = this.props;

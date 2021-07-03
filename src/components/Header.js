@@ -40,6 +40,7 @@ class Header extends Component {
       open: false,
       tags: [],
       new_tag: "",
+      modal: false,
     };
   }
   componentDidMount() {
@@ -55,6 +56,7 @@ class Header extends Component {
   };
 
   handleClose = () => {
+    this.setState({ modal: false });
     this.setState({ open: false });
   };
   render() {
@@ -80,19 +82,19 @@ class Header extends Component {
         {this.state.menu ? (
           <CloseIcon
             className="menu__icon"
-            onClick={() => this.setState({ open: true })}
+            onClick={() => this.setState({ open: false, menu: false })}
           />
         ) : (
           <MenuIcon
             className="menu__icon"
-            onClick={() => this.setState({ open: true })}
+            onClick={() => this.setState({ open: true, menu: true })}
           />
         )}
         <ul className="main">
           <Link to="/" className="item current">
             Home
           </Link>
-          <Link className="item" onClick={this.handleOpen}>
+          <Link className="item" onClick={() => this.setState({ modal: true })}>
             Contribute
           </Link>
           {localStorage.getItem("mycreativeside_token") ? (
@@ -100,7 +102,7 @@ class Header extends Component {
               <Link to="/" style={{ textDecoration: "none" }}>
                 <div className="login__avatar">
                   <Avatar alt="Remy Sharp" src={login.url} />
-                  <span>{login.name}</span>
+                  <span>{login.name ? login.name.split(" ")[0] : ""}</span>
                 </div>
               </Link>
               <Link className="item" onClick={() => logout()}>
@@ -122,15 +124,18 @@ class Header extends Component {
             </React.Fragment>
           )}
         </ul>
-        {this.state.menu ? (
+        {this.state.open ? (
           <ul
             className="header__nav"
-            onClick={() => this.setState({ open: false })}
+            onClick={() => this.setState({ menu: false })}
           >
             <Link to="/" className="item current">
               Home
             </Link>
-            <Link className="item" onClick={this.handleOpen}>
+            <Link
+              className="item"
+              onClick={() => this.setState({ modal: true })}
+            >
               Contribute
             </Link>
             {localStorage.getItem("mycreativeside_token") ? (
@@ -141,16 +146,7 @@ class Header extends Component {
                 </div>
               </Link>
             ) : (
-              <React.Fragment>
-                <Link to="/login" className="item">
-                  Login
-                </Link>
-                <Link to="signup" style={{ textDecoration: "none" }}>
-                  <ColorButton color="primary" variant="contained">
-                    Signup
-                  </ColorButton>
-                </Link>
-              </React.Fragment>
+              ""
             )}
           </ul>
         ) : (
@@ -159,7 +155,7 @@ class Header extends Component {
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
-          open={this.state.open}
+          open={this.state.modal}
           onClose={this.handleClose}
           closeAfterTransition
           BackdropComponent={Backdrop}
@@ -167,7 +163,7 @@ class Header extends Component {
             timeout: 500,
           }}
         >
-          <Fade in={this.state.open}>
+          <Fade in={this.state.modal}>
             <div className="contribution__bg">
               <p>Want to contribute?</p>
               <br />

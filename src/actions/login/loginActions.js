@@ -14,6 +14,7 @@ import {
 } from "../../constants/login/loginConst";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
+import history from "../../history";
 
 export function signup(user) {
   return (dispatch) => {
@@ -63,8 +64,9 @@ export function signup_api(user, url) {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status === "success") {
-          // dispatch(get_all_posts(responseJson.result));
+          dispatch(set_login(responseJson.data));
           dispatch(reset_user());
+          history.push("/");
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
@@ -230,6 +232,7 @@ export function do_login(user) {
         if (responseJson.status === "success") {
           dispatch(set_login(responseJson.data));
           dispatch(reset_user());
+          history.push("/");
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;

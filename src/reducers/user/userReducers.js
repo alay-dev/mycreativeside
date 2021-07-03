@@ -8,8 +8,6 @@ import {
   SET_USER_IMG,
   SET_USER_OLD_IMG,
   RESET_USER,
-  LOGIN,
-  LOGOUT,
 } from "../../constants/login/loginConst";
 
 const initial_state = {

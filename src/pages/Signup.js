@@ -1,6 +1,7 @@
 import { CardContent, TextField, Button, Card, Input } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
+import history from "../history";
 
 import signupImg from "../img/signup.svg";
 import "../css/Signup.css";
@@ -9,6 +10,11 @@ import { Component } from "react";
 class Signup extends Component {
   constructor(props) {
     super(props);
+  }
+  componentDidMount() {
+    if (localStorage.getItem("mycreativeside_token")) {
+      history.push("/");
+    }
   }
   render() {
     const {

@@ -1,6 +1,6 @@
 import { Route, Router, Switch } from "react-router-dom";
 import "./App.css";
-import Home from "./pages/Home";
+
 import history from "./history";
 import LoginCont from "./containers/login/loginCont";
 import DashboardCont from "./containers/dashboard/dashboardCont";
@@ -8,7 +8,7 @@ import HeaderCont from "./containers/header/headerCont";
 import HomeCont from "./containers/home/homeCont";
 import SignupCont from "./containers/signup/signupCont";
 import PostCont from "./containers/post/postCont";
-import controllerCont from "./containers/controller/controllerCont";
+
 import Footer from "./components/Footer";
 import { Component } from "react";
 import firebase from "firebase";

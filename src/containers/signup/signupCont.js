@@ -8,8 +8,8 @@ import {
   set_user_email,
   set_user_img,
   set_user_name,
-  set_user_old_img,
   set_user_password,
+  set_reload_login,
 } from "../../actions/login/loginActions";
 import { connect } from "react-redux";
 
@@ -48,6 +48,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     set_user_confirm_password: (confirm_password) => {
       dispatch(set_user_confirm_password(confirm_password));
+    },
+    set_reload_login: (login) => {
+      dispatch(set_reload_login(login));
     },
   };
 };
