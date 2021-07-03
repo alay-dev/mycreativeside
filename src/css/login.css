@@ -52,3 +52,22 @@
   font-weight: 600;
   font-size: 1.4rem;
 }
+
+.login__avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  color: black;
+}
+
+.login__avatar .MuiAvatar-img {
+  object-fit: cover;
+  object-position: center;
+  width: 3rem !important;
+  height: 3rem !important;
+}
+.login__avatar .MuiAvatar-circle {
+  width: 3rem !important;
+  height: 3rem !important;
+}

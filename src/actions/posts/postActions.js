@@ -7,24 +7,24 @@ import {
   SET_POST_OLD_IMG,
 } from "../../constants/posts/postsConst";
 import UNIVERSAL from "../../config/config";
-import { response } from "express";
+import firebase from "firebase";
 
 export function get_all_posts(login) {
   return (dispatch) => {
-    dispatch(setLoader());
+    // dispatch(setLoader());
 
-    return fetch(UNIVERSAL.BASEURL + "view_all_post", {
+    return fetch(UNIVERSAL.BASEURL + "/api/posts", {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        token: login.token,
+        // token: login.token,
       },
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson.status) {
-          // dispatch(set_all_posts(responseJson.result))
+        if (responseJson.status === "success") {
+          dispatch(set_all_posts(responseJson.posts));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
@@ -42,21 +42,24 @@ export function get_all_posts(login) {
 
 export function get_post_by_id(id, login) {
   return (dispatch) => {
-    dispatch(setLoader());
+    // dispatch(setLoader());
 
-    return fetch(UNIVERSAL.BASEURL + "view_all_post", {
-      method: "GET",
+    return fetch(UNIVERSAL.BASEURL + "/api/posts/get_post", {
+      method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        token: login.token,
-        post_id: id,
+        // token: login.token,
+        // post_id: id,
       },
+      body: JSON.stringify({
+        id: id,
+      }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson.status) {
-          dispatch(set_current_post(responseJson.result));
+        if (responseJson.status === "success") {
+          dispatch(set_current_post(responseJson.posts));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
@@ -74,51 +77,56 @@ export function get_post_by_id(id, login) {
 
 export function add_post(post, login) {
   return (dispatch) => {
-    dispatch(setLoader());
+    // dispatch(setLoader());
     if (post.img !== "") {
       var storageRef = firebase.storage().ref();
       var uploadTask = storageRef
-        .child("posts/" + login.name + ".png")
-        .put(admin.profile);
+        .child("posts/" + Date.now() + ".png")
+        .put(post.img);
       uploadTask.on(
         "state_changed",
         function (snapshot) {},
         function (error) {
-          dispatch(set_snack_bar(true, "Image Could Not Be sUploaded"));
+          // dispatch(set_snack_bar(true, "Image Could Not Be sUploaded"));
         },
         function () {
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            console.log(downloadURL);
             dispatch(add_post_api(post, login, downloadURL));
           });
         }
       );
     } else {
-      dispatch(add_admin_api(post, login, ""));
+      dispatch(add_post_api(post, login, ""));
     }
   };
 }
 
 export function add_post_api(post, login, url) {
   return (dispatch) => {
-    dispatch(setLoader());
-
-    return fetch(UNIVERSAL.BASEURL + "view_all_post", {
+    console.log(login);
+    // dispatch(setLoader());
+    console.log(UNIVERSAL, "Baseurl...");
+    return fetch(UNIVERSAL.BASEURL + "/api/posts", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        token: token,
       },
       body: JSON.stringify({
-        post_img: url,
-        post_caption: post.caption,
-        post_tags: post.tags,
+        email: login.login.email,
+        date: Date.now(),
+        url: url,
+        caption: post.caption,
+        tags: post.tags,
+        author_name: login.login.name,
+        author_img: login.login.url,
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson.status) {
-          dispatch(set_all_post(responseJson.result));
+        if (responseJson.status === "success") {
+          dispatch(get_all_posts());
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
@@ -136,17 +144,17 @@ export function add_post_api(post, login, url) {
 
 export function update_post(id, post, login) {
   return (dispatch) => {
-    dispatch(setLoader());
+    // dispatch(setLoader());
     if (post.img !== "") {
       var storageRef = firebase.storage().ref();
       var uploadTask = storageRef
         .child("posts/" + login.name + ".png")
-        .put(admin.profile);
+        .put(post.img);
       uploadTask.on(
         "state_changed",
         function (snapshot) {},
         function (error) {
-          dispatch(set_snack_bar(true, "Image Could Not Be sUploaded"));
+          // dispatch(set_snack_bar(true, "Image Could Not Be sUploaded"));
         },
         function () {
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
@@ -155,21 +163,20 @@ export function update_post(id, post, login) {
         }
       );
     } else {
-      dispatch(update_admin_api(id, post, login, old_img));
+      dispatch(update_post_api(id, post, login, post.old_img));
     }
   };
 }
 
 export function update_post_api(id, post, login, url) {
   return (dispatch) => {
-    dispatch(setLoader());
+    // dispatch(setLoader());
 
     return fetch(UNIVERSAL.BASEURL + "view_all_post", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        token: token,
       },
       body: JSON.stringify({
         post_id: id,
@@ -181,7 +188,7 @@ export function update_post_api(id, post, login, url) {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status) {
-          dispatch(set_all_post(responseJson.result));
+          dispatch(set_all_posts(responseJson.result));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
@@ -199,21 +206,23 @@ export function update_post_api(id, post, login, url) {
 
 export function delete_post(id, login) {
   return (dispatch) => {
-    dispatch(setLoader());
+    // dispatch(setLoader());
 
-    return fetch(UNIVERSAL.BASEURL + "view_all_post", {
+    return fetch(UNIVERSAL.BASEURL + "/api/posts", {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        token: login.token,
-        post_id: id,
+        // token: login.token,
       },
+      body: JSON.stringify({
+        id: id,
+      }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson.status) {
-          dispatch(set_all_post(responseJson.result));
+        if (responseJson.status === "success") {
+          dispatch(get_all_posts(login));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   TextField,
   Card,
@@ -16,10 +18,17 @@ import {
   AppBar,
   Tabs,
   Tab,
+  Chip,
+  InputLabel,
+  Tooltip,
+  IconButton,
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import "../css/dashboard.css";
+import { Component } from "react";
 
 function createData(name, email, title, file, action) {
   return { name, email, title, file };
@@ -72,107 +81,229 @@ function a11yProps(index) {
   };
 }
 
-const Dashboard = () => {
-  const classes = useStyles();
-  const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tags: [],
+      new_tag: "",
+      value: 0,
+    };
+  }
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  componentDidMount() {
+    this.props.get_all_posts();
+  }
+
+  handleChange = (event, newValue) => {
+    this.setState({ value: newValue });
   };
 
-  const handleChangeIndex = (index) => {
-    setValue(index);
+  handleChangeIndex = (index) => {
+    this.setState({ value: index });
   };
-  return (
-    <div className="dashboard">
-      <AppBar position="static" style={{ backgroundColor: "#d4f1f4" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Add Post" {...a11yProps(0)} />
-          <Tab label="Contributions" {...a11yProps(1)} />
-          <Tab label="Comments" {...a11yProps(2)} />
-          <Tab label="Admins" {...a11yProps(3)} />
-          <Tab label="Users" {...a11yProps(4)} />
-          <Tab label="Posts" {...a11yProps(5)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0} dir={theme.direction}>
-        <Card style={{ width: "20rem" }}>
-          <CardContent>
-            <h3>Add post</h3>
-            <form className={classes.root} noValidate autoComplete="off">
-              <div style={{ marginBottom: "0.5rem" }}>
-                <TextField
-                  required
-                  id="outlined-basic"
-                  label="Caption"
-                  variant="outlined"
-                  size="small"
-                />
-              </div>
-              <div>
+
+  render() {
+    const {
+      login,
+      post,
+      add_post,
+      set_post_img,
+      set_post_caption,
+      set_post_tags,
+      set_post_old_img,
+      delete_post,
+    } = this.props;
+    return (
+      <div className="dashboard">
+        <AppBar position="static" style={{ backgroundColor: "#d4f1f4" }}>
+          <Tabs
+            value={this.state.value}
+            onChange={this.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
+          >
+            <Tab label="Add Post" {...a11yProps(0)} />
+            <Tab label="Contributions" {...a11yProps(1)} />
+            <Tab label="Comments" {...a11yProps(2)} />
+            <Tab label="Admins" {...a11yProps(3)} />
+            <Tab label="Users" {...a11yProps(4)} />
+            <Tab label="Posts" {...a11yProps(5)} />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={this.state.value} index={0}>
+          <Card style={{ width: "20rem" }}>
+            <CardContent>
+              <h3>Add post</h3>
+              <form noValidate autoComplete="off">
+                {/* <div style={{ marginBottom: "0.5rem" }}> */}
                 <Input
                   required
                   id="outlined-basic"
                   label="Choose post image "
                   variant="outlined"
                   type="file"
+                  onChange={(e) => {
+                    set_post_img(e.target.files[0]);
+                  }}
                 />
-              </div>
-              <div className="btn">
-                <Button color="primary" variant="contained">
-                  Post
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </TabPanel>
-      <TabPanel value={value} index={1} dir={theme.direction}>
-        <Card>
-          <CardContent>
-            <h3>Contribution</h3>
-            <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell align="right">Email</TableCell>
-                    <TableCell align="right">Title</TableCell>
-                    <TableCell align="right">File</TableCell>
-                    <TableCell align="right">Actions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow key={row.name}>
-                      <TableCell component="th" scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right"></TableCell>
+                <br />
+                <br />
+                <TextField
+                  required
+                  id="outlined-basic"
+                  label="Caption"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  onChange={(e) => {
+                    set_post_caption(e.target.value);
+                  }}
+                />
+                <br />
+                <br />
+                <InputLabel>Tags</InputLabel>
+                <TextField
+                  value={this.state.new_tag}
+                  label="Enter to add tag"
+                  fullWidth
+                  type="text"
+                  onChange={(e) => {
+                    this.setState({ new_tag: e.target.value });
+                  }}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      this.setState({
+                        tags: [...this.state.tags, this.state.new_tag],
+                      });
+                      this.setState({ new_tag: "" });
+                    }
+                  }}
+                />
+                <div className="tags_cont">
+                  {this.state.tags.map((row, i) => {
+                    return (
+                      <Chip
+                        key={i}
+                        label={row}
+                        onDelete={() =>
+                          // setTags(tags.filter((row2) => row2 !== row))
+                          this.setState({
+                            tags: this.state.tags.filter(
+                              (row2) => row2 !== row
+                            ),
+                          })
+                        }
+                        color="primary"
+                      />
+                    );
+                  })}
+                </div>
+                <div className="btn">
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => {
+                      set_post_tags(this.state.tags);
+                      add_post(post, login);
+                    }}
+                  >
+                    Post
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </TabPanel>
+        <TabPanel value={this.state.value} index={1}>
+          <Card>
+            <CardContent>
+              <h3>Contribution</h3>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell align="right">Email</TableCell>
+                      <TableCell align="right">Title</TableCell>
+                      <TableCell align="right">File</TableCell>
+                      <TableCell align="right">Actions</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-        </Card>
-      </TabPanel>
-      <TabPanel value={value} index={2} dir={theme.direction}>
-        Item Three
-      </TabPanel>
-    </div>
-  );
-};
+                  </TableHead>
+                  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow key={row.name}>
+                        <TableCell component="th" scope="row">
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="right">{row.calories}</TableCell>
+                        <TableCell align="right">{row.fat}</TableCell>
+                        <TableCell align="right">{row.carbs}</TableCell>
+                        <TableCell align="right"></TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+        </TabPanel>
+        <TabPanel value={this.state.value} index={2}>
+          Item Three
+        </TabPanel>
+        <TabPanel value={this.state.value} index={5}>
+          <Card>
+            <CardContent>
+              <h3>All posts</h3>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">No.</TableCell>
+                      <TableCell align="center">Email</TableCell>
+                      <TableCell align="center">Caption</TableCell>
+
+                      <TableCell align="center">Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {post.all_post.map((row, i) => (
+                      <TableRow key={i}>
+                        <TableCell align="center">{i + 1}</TableCell>
+                        <TableCell align="center" component="th" scope="row">
+                          {row.email}
+                        </TableCell>
+                        <TableCell align="center">{row.caption}</TableCell>
+                        <TableCell align="center">
+                          <Tooltip title="Delete">
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => {
+                                delete_post(row._id);
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Edit">
+                            <IconButton aria-label="edit">
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+        </TabPanel>
+      </div>
+    );
+  }
+}
 
 export default Dashboard;

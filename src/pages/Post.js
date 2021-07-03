@@ -12,7 +12,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import img1 from "./../img/featured2.jpeg";
+import moment from "moment";
 
 import "../css/post.css";
 import CommentLikeTab from "../components/CommentLikeTab";
@@ -60,12 +60,15 @@ class Post extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.get_post_by_id(this.props.match.params.id);
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes, post } = this.props;
     return (
       <div className="post">
+        {console.log("props", this.props)}
         <Card style={{ width: "70rem", backgroundColor: "#d4f1f4" }}>
           <CardContent>
             <div className="post__grid">
@@ -87,7 +90,7 @@ class Post extends Component {
                     <KeyboardBackspaceIcon />
                   </Button>
                 </Link>
-                <img className="post__img" src={img1} />
+                <img className="post__img" src={post.current_post.url} />
                 <div className="like_share_cont">
                   <ButtonGroup
                     variant="contained"
@@ -118,20 +121,16 @@ class Post extends Component {
                   </ButtonGroup>
                 </div>
                 <div className="avatar__cont">
-                  <Avatar
-                    style={{ width: "6rem", height: "6rem" }}
-                    src={"https://i.pravatar.cc/300?img=30"}
-                  />
-                  <h3>Abhishek Gupta</h3>
+                  <Avatar src={post.current_post.author_img} />
+                  <h3>{post.current_post.author_name}</h3>
                 </div>
               </div>
               <div className="right">
-                <h4>
-                  Contrary to popular belief, Lorem Ipsum is not simply random
-                  text. It has roots in a piece of classical Latin literature
-                  from
-                </h4>
-                <p className="date">24/8/2021</p>
+                <h4>{post.current_post.caption}</h4>
+                <p className="date">
+                  {" "}
+                  {moment(post.current_post.date).format("LL")}
+                </p>
                 <Divider />
                 <CommentLikeTab />
               </div>

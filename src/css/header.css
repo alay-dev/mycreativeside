@@ -12,7 +12,7 @@
 }
 
 .header img {
-  height: 3.6rem;
+  height: 3.4rem;
 }
 
 .header__nav {
@@ -39,7 +39,7 @@
   position: relative;
 }
 
-.header .main .item:hover {
+.header .main .item:not(:last-child):hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
 

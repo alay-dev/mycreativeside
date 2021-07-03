@@ -10,6 +10,10 @@ body {
   background-color: #05445e;
 }
 
+.home {
+  position: relative;
+}
+
 .btn__cont {
   width: 100%;
   display: flex;
