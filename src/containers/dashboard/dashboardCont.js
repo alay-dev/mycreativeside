@@ -11,6 +11,11 @@ import {
   set_post_tags,
   get_all_posts,
   delete_post,
+  set_post_author_email,
+  set_post_author_name,
+  set_post_author_img,
+  set_post_author,
+  update_post,
 } from "../../actions/posts/postActions";
 import { connect } from "react-redux";
 
@@ -56,6 +61,21 @@ const mapDispatchToProps = (dispatch) => {
     },
     delete_user: (id, login) => {
       dispatch(delete_user(id, login));
+    },
+    set_post_author_email: (email) => {
+      dispatch(set_post_author_email(email));
+    },
+    set_post_author_name: (name) => {
+      dispatch(set_post_author_name(name));
+    },
+    set_post_author_img: (img) => {
+      dispatch(set_post_author_img(img));
+    },
+    set_post_author: (id, post, login) => {
+      dispatch(set_post_author(id, post, login));
+    },
+    update_post: (id, post, login) => {
+      dispatch(update_post(id, post, login));
     },
   };
 };

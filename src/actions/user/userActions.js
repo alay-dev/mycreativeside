@@ -2,7 +2,6 @@ import { reset_user } from "../login/loginActions";
 import { SET_ALL_USER } from "../../constants/user/userConst";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
-import history from "../../history";
 
 export function get_all_users(login) {
   return (dispatch) => {

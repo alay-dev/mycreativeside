@@ -5,6 +5,10 @@ import {
   SET_CURRENT_POST,
   SET_POST_IMG,
   SET_POST_OLD_IMG,
+  SET_POST_AUTHOR_EMAIL,
+  SET_POST_AUTHOR_IMG,
+  SET_POST_AUTHOR_NAME,
+  SET_POST_AUTHOR_ID,
 } from "../../constants/posts/postsConst";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
@@ -114,13 +118,14 @@ export function add_post_api(post, login, url) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: login.login.email,
+        email: login.email,
         date: Date.now(),
         url: url,
         caption: post.caption,
         tags: post.tags,
-        author_name: login.login.name,
-        author_img: login.login.url,
+        author_name: login.name,
+        author_img: login.url,
+        author_id: login._id,
       }),
     })
       .then((response) => response.json())
@@ -171,24 +176,28 @@ export function update_post(id, post, login) {
 export function update_post_api(id, post, login, url) {
   return (dispatch) => {
     // dispatch(setLoader());
-
-    return fetch(UNIVERSAL.BASEURL + "view_all_post", {
-      method: "POST",
+    console.log("update action", post);
+    return fetch(UNIVERSAL.BASEURL + "/api/posts/", {
+      method: "PATCH",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        post_id: id,
-        post_img: url,
-        post_caption: post.caption,
-        post_tags: post.tags,
+        id: id,
+        email: post.author_email,
+        url: url,
+        caption: post.caption,
+        tags: post.tags,
+        author_name: post.author_name,
+        author_img: post.author_img,
+        author_id: post.author_id,
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson.status) {
-          dispatch(set_all_posts(responseJson.result));
+        if (responseJson.status === "success") {
+          dispatch(get_all_posts());
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
@@ -235,6 +244,72 @@ export function delete_post(id, login) {
       .catch((error) => {
         console.log(error);
       });
+  };
+}
+
+export function set_post_author(id, post, login) {
+  return (dispatch) => {
+    console.log("kkkk");
+    return fetch(UNIVERSAL.BASEURL + "/api/users/get_user", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        // token: login.token,
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.status === "success") {
+          dispatch(set_post_author_id(id));
+          dispatch(set_post_author_name(responseJson.user.name));
+          dispatch(set_post_author_email(responseJson.user.email));
+          dispatch(set_post_author_img(responseJson.user.url));
+          // dispatch(update_post(post_id, post, login));
+        } else {
+          if (responseJson.message === "User does not exist") {
+            // dispatch(onLogout()) ;
+          } else {
+            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+          }
+        }
+        // dispatch(unsetLoader()) ;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function set_post_author_id(payload) {
+  return {
+    type: SET_POST_AUTHOR_ID,
+    payload: payload,
+  };
+}
+
+export function set_post_author_name(payload) {
+  return {
+    type: SET_POST_AUTHOR_NAME,
+    payload: payload,
+  };
+}
+
+export function set_post_author_email(payload) {
+  return {
+    type: SET_POST_AUTHOR_EMAIL,
+    payload: payload,
+  };
+}
+
+export function set_post_author_img(payload) {
+  console.log("1hh", payload);
+  return {
+    type: SET_POST_AUTHOR_IMG,
+    payload: payload,
   };
 }
 

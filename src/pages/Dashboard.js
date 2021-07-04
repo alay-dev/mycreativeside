@@ -23,14 +23,18 @@ import {
   Tooltip,
   IconButton,
   Avatar,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
 } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import "../css/dashboard.css";
 import { Component } from "react";
-import { delete_user } from "../actions/user/userActions";
 
 function createData(name, email, title, file, action) {
   return { name, email, title, file };
@@ -90,6 +94,9 @@ class Dashboard extends Component {
       tags: [],
       new_tag: "",
       value: 0,
+      edit_post: false,
+      id: "",
+      author_id: "",
     };
   }
 
@@ -106,6 +113,12 @@ class Dashboard extends Component {
     this.setState({ value: index });
   };
 
+  handleClose = () => {
+    this.setState({
+      edit_post: false,
+    });
+  };
+
   render() {
     const {
       login,
@@ -114,10 +127,15 @@ class Dashboard extends Component {
       add_post,
       set_post_img,
       set_post_caption,
+      set_post_author_email,
+      set_post_author_name,
+      set_post_author_img,
       set_post_tags,
       set_post_old_img,
       delete_post,
       delete_user,
+      set_post_author,
+      update_post,
     } = this.props;
     return (
       <div className="dashboard">
@@ -309,7 +327,22 @@ class Dashboard extends Component {
                               <DeleteIcon />
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title="Edit">
+                          <Tooltip
+                            title="Edit"
+                            onClick={() => {
+                              this.setState({
+                                edit_post: true,
+                                id: row._id,
+                                author_id: row.author_id,
+                              });
+                              set_post_caption(row.caption);
+                              set_post_old_img(row.url);
+                              set_post_tags(row.tags);
+                              set_post_author_email(row.author_email);
+                              set_post_author_name(row.author_name);
+                              set_post_author_img(row.author_img);
+                            }}
+                          >
                             <IconButton aria-label="edit">
                               <EditIcon />
                             </IconButton>
@@ -323,6 +356,103 @@ class Dashboard extends Component {
             </CardContent>
           </Card>
         </TabPanel>
+        <Dialog
+          open={this.state.edit_post}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Edit post</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Caption"
+              type="text"
+              fullWidth
+              inputProps={{ maxLength: 40 }}
+              value={post.caption}
+              onChange={(e) => set_post_caption(e.target.value)}
+            />
+            <InputLabel style={{ marginTop: "1rem" }}>Post Img</InputLabel>
+            <TextField
+              autoFocus
+              margin="dense"
+              type="file"
+              fullWidth
+              style={{ marginBottom: "1rem" }}
+            />
+            <Autocomplete
+              id="combo-box-demo"
+              options={user.all_users.map((row2) => {
+                return {
+                  title: row2.name,
+                  id: row2._id,
+                };
+              })}
+              size="small"
+              fullWidth
+              onChange={(e, newVal) => {
+                // newVal ? this.setState({ author_id: newVal.id }) : "";
+                set_post_author(newVal.id, post, login);
+              }}
+              getOptionLabel={(option) => option.title}
+              style={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  fullWidth
+                  label="Select Author"
+                  variant="outlined"
+                />
+              )}
+            />
+            <InputLabel style={{ marginTop: "1rem" }}>Tags</InputLabel>
+            <TextField
+              value={this.state.new_tag}
+              label="Enter to add tag"
+              fullWidth
+              type="text"
+              onChange={(e) => {
+                this.setState({ new_tag: e.target.value });
+              }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  set_post_tags([...post.tags, this.state.new_tag]);
+                  this.setState({ new_tag: "" });
+                }
+              }}
+            />
+            <div className="tags_cont">
+              {post.tags.map((row, i) => {
+                return (
+                  <Chip
+                    key={i}
+                    label={row}
+                    onDelete={() => {
+                      set_post_tags(post.tags.filter((row2) => row2 !== row));
+                    }}
+                    color="primary"
+                  />
+                );
+              })}
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              color="primary"
+              onClick={() => {
+                console.log("component2", post);
+                update_post(this.state.id, post, login);
+                this.handleClose();
+              }}
+            >
+              update
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
