@@ -1,7 +1,7 @@
 import { Component } from "react";
 import Post from "../../pages/Post";
 
-import { get_all_posts, get_post_by_id } from "../../actions/posts/postActions";
+import { get_post_by_id } from "../../actions/posts/postActions";
 import { connect } from "react-redux";
 
 class PostCont extends Component {

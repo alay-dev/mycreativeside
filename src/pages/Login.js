@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-// import GoogleIcon from "@material-ui/icons/Google";
 import GoogleLogin from "react-google-login";
 import "../css/login.css";
 import { Component } from "react";

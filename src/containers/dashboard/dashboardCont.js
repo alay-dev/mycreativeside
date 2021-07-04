@@ -1,6 +1,8 @@
 import { Component } from "react";
 import Dashboard from "../../pages/Dashboard";
 // import {} from "../../actions/login/loginActions";
+import { update_user, update_password } from "../../actions/user/userActions";
+import { get_all_users, delete_user } from "../../actions/user/userActions";
 import {
   add_post,
   set_post_caption,
@@ -22,6 +24,7 @@ const mapStateToProps = (store) => {
   return {
     login: store.login,
     post: store.post,
+    user: store.user,
   };
 };
 
@@ -47,6 +50,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     delete_post: (id) => {
       dispatch(delete_post(id));
+    },
+    get_all_users: (login) => {
+      dispatch(get_all_users(login));
+    },
+    delete_user: (id, login) => {
+      dispatch(delete_user(id, login));
     },
   };
 };

@@ -8,9 +8,11 @@ import {
   SET_USER_IMG,
   SET_USER_OLD_IMG,
   RESET_USER,
-} from "../../constants/login/loginConst";
+  SET_ALL_USER,
+} from "../../constants/user/userConst";
 
 const initial_state = {
+  all_users: [],
   email: "",
   name: "",
   contact_num: "",
@@ -23,6 +25,8 @@ const initial_state = {
 
 export default function reducer(state = initial_state, action) {
   switch (action.type) {
+    case SET_ALL_USER:
+      return (state = { ...state, all_users: action.payload });
     case SET_USER_NAME:
       return (state = { ...state, name: action.payload });
     case SET_USER_EMAIL:

@@ -22,6 +22,7 @@ import {
   InputLabel,
   Tooltip,
   IconButton,
+  Avatar,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
@@ -29,6 +30,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import "../css/dashboard.css";
 import { Component } from "react";
+import { delete_user } from "../actions/user/userActions";
 
 function createData(name, email, title, file, action) {
   return { name, email, title, file };
@@ -93,6 +95,7 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.props.get_all_posts();
+    this.props.get_all_users();
   }
 
   handleChange = (event, newValue) => {
@@ -107,12 +110,14 @@ class Dashboard extends Component {
     const {
       login,
       post,
+      user,
       add_post,
       set_post_img,
       set_post_caption,
       set_post_tags,
       set_post_old_img,
       delete_post,
+      delete_user,
     } = this.props;
     return (
       <div className="dashboard">
@@ -126,11 +131,10 @@ class Dashboard extends Component {
             aria-label="full width tabs example"
           >
             <Tab label="Add Post" {...a11yProps(0)} />
-            <Tab label="Contributions" {...a11yProps(1)} />
-            <Tab label="Comments" {...a11yProps(2)} />
-            <Tab label="Admins" {...a11yProps(3)} />
-            <Tab label="Users" {...a11yProps(4)} />
-            <Tab label="Posts" {...a11yProps(5)} />
+            <Tab label="Comments" {...a11yProps(1)} />
+            <Tab label="Admins" {...a11yProps(2)} />
+            <Tab label="Users" {...a11yProps(3)} />
+            <Tab label="Posts" {...a11yProps(4)} />
           </Tabs>
         </AppBar>
         <TabPanel value={this.state.value} index={0}>
@@ -218,30 +222,51 @@ class Dashboard extends Component {
           </Card>
         </TabPanel>
         <TabPanel value={this.state.value} index={1}>
+          Item Two
+        </TabPanel>
+        <TabPanel value={this.state.value} index={3}>
           <Card>
             <CardContent>
-              <h3>Contribution</h3>
+              <h3>All users</h3>
               <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell align="right">Email</TableCell>
-                      <TableCell align="right">Title</TableCell>
-                      <TableCell align="right">File</TableCell>
-                      <TableCell align="right">Actions</TableCell>
+                      <TableCell align="center">No.</TableCell>
+                      <TableCell align="center">Profile Pic</TableCell>
+                      <TableCell align="center">Email</TableCell>
+                      <TableCell align="center">contact no.</TableCell>
+                      <TableCell align="center">Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {rows.map((row) => (
-                      <TableRow key={row.name}>
-                        <TableCell component="th" scope="row">
-                          {row.name}
+                    {user.all_users.map((row, i) => (
+                      <TableRow key={i}>
+                        <TableCell align="center">{i + 1}</TableCell>
+                        <TableCell align="center">
+                          <Avatar alt={row.name} src={row.url} />
                         </TableCell>
-                        <TableCell align="right">{row.calories}</TableCell>
-                        <TableCell align="right">{row.fat}</TableCell>
-                        <TableCell align="right">{row.carbs}</TableCell>
-                        <TableCell align="right"></TableCell>
+                        <TableCell align="center" component="th" scope="row">
+                          {row.email}
+                        </TableCell>
+                        <TableCell align="center">{row.contact_no}</TableCell>
+                        <TableCell align="center">
+                          <Tooltip title="Delete">
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => {
+                                delete_user(row._id, login);
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Edit">
+                            <IconButton aria-label="edit">
+                              <EditIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -250,10 +275,7 @@ class Dashboard extends Component {
             </CardContent>
           </Card>
         </TabPanel>
-        <TabPanel value={this.state.value} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={this.state.value} index={5}>
+        <TabPanel value={this.state.value} index={4}>
           <Card>
             <CardContent>
               <h3>All posts</h3>
