@@ -62,10 +62,11 @@ class Post extends Component {
 
   componentDidMount() {
     this.props.get_post_by_id(this.props.match.params.id);
+    // this.props.set_current_post(this.props.match.params.id);
   }
 
   render() {
-    const { classes, post } = this.props;
+    const { classes, post, login, comment } = this.props;
     return (
       <div className="post">
         {console.log("props", this.props)}
@@ -132,7 +133,7 @@ class Post extends Component {
                   {moment(post.current_post.date).format("LL")}
                 </p>
                 <Divider />
-                <CommentLikeTab />
+                <CommentLikeTab {...this.props} />
               </div>
             </div>
           </CardContent>

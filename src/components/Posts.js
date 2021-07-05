@@ -90,7 +90,9 @@ class Posts extends Component {
                   <img src={row.url} className="post_img" />
                 </Link>
                 <div className="post--info">
-                  <p>{row.caption}</p>
+                  <div className="caption__cont">
+                    <p>{row.caption}</p>
+                  </div>
                   <div className="author">
                     <Avatar
                       style={{ marginRight: "0.5rem" }}
@@ -109,32 +111,32 @@ class Posts extends Component {
                   <div className="like">
                     <ThumbUpAltIcon
                       style={{
-                        color: "blue",
+                        color: "#05445e",
                         marginRight: "0.5rem",
                         fontSize: "1.2rem",
                       }}
                     />
-                    <span>{row.likes}</span>
+                    <span>{row.likes ? row.likes.length : ""}</span>
                   </div>
                   <div className="view">
                     <VisibilityIcon
                       style={{
-                        color: "blue",
+                        color: "#05445e",
                         marginRight: "0.5rem",
                         fontSize: "1.2rem",
                       }}
                     />
-                    <span>{row.views}</span>
+                    <span>{row.views ? row.views.length : ""}</span>
                   </div>
                   <div className="comment">
                     <ChatBubbleIcon
                       style={{
-                        color: "blue",
+                        color: "#05445e",
                         marginRight: "0.5rem",
                         fontSize: "1.2rem",
                       }}
                     />
-                    <span>{row.comments}</span>
+                    <span>{row.comments ? row.comments.length : ""}</span>
                   </div>
                 </div>
               </Card>

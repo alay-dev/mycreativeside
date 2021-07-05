@@ -369,7 +369,7 @@ class Dashboard extends Component {
               label="Caption"
               type="text"
               fullWidth
-              inputProps={{ maxLength: 40 }}
+              inputProps={{ maxLength: 80 }}
               value={post.caption}
               onChange={(e) => set_post_caption(e.target.value)}
             />

@@ -14,7 +14,10 @@ import {
 
 const initial_state = {
   all_post: [],
-  current_post: "",
+  current_post: {
+    comments: [],
+    tags: [],
+  },
   tags: [],
   img: "",
   old_img: "",

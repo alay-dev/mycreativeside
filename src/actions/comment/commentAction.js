@@ -1,10 +1,12 @@
 import {
-  SET_COMMENT_USER_ID,
+  SET_COMMENT_USER_NAME,
   SET_COMMENT,
   SET_ALL_COMMENT,
+  SET_COMMENT_USER_IMG,
   RESET_COMMENT,
 } from "../../constants/comments/commentConst";
 import UNIVERSAL from "../../config/config";
+import { get_post_by_id } from "../posts/postActions";
 
 export function get_all_comment(login) {
   return (dispatch) => {
@@ -35,23 +37,27 @@ export function get_all_comment(login) {
 
 export function add_comment(id, comment, login) {
   return (dispatch) => {
-    dispatch(setLoader());
-    return fetch(UNIVERSAL.BASEURL + "add_comment", {
+    // dispatch(setLoader());
+    return fetch(UNIVERSAL.BASEURL + "/api/comments", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        token: login.token,
+        // token: login.token,
       },
       body: JSON.stringify({
-        post_id: id,
-        comment: comment,
+        id: id,
+        date: Date.now(),
+        comment: comment.comment,
+        user_img: comment.user_img,
+        user_name: comment.user_name,
       }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status) {
-          dispatch(get_all_comment());
+          dispatch(reset_comment());
+          dispatch(get_post_by_id(id));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout())
@@ -66,7 +72,7 @@ export function add_comment(id, comment, login) {
 
 export function update_comment(id, comment, login) {
   return (dispatch) => {
-    dispatch(setLoader());
+    // dispatch(setLoader());
     return fetch(UNIVERSAL.BASEURL + "update_comment", {
       method: "POST",
       headers: {
@@ -130,14 +136,21 @@ export function set_comment(payload) {
   };
 }
 
-export function set_comment_user_id(payload) {
+export function set_comment_user_name(payload) {
   return {
-    type: SET_COMMENT_USER_ID,
+    type: SET_COMMENT_USER_NAME,
+    payload: payload,
+  };
+}
+export function set_comment_user_img(payload) {
+  console.log(payload);
+  return {
+    type: SET_COMMENT_USER_IMG,
     payload: payload,
   };
 }
 
-export function reset_comment(payload) {
+export function reset_comment() {
   return {
     type: RESET_COMMENT,
   };
