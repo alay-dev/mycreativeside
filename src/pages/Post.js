@@ -76,7 +76,7 @@ class Post extends Component {
           <CardContent>
             <div className="post__grid">
               <div className="left">
-                <Link to="/">
+                {/* <Link to="/">
                   <Button
                     style={{
                       borderRadius: "1.4rem",
@@ -92,7 +92,7 @@ class Post extends Component {
                   >
                     <KeyboardBackspaceIcon />
                   </Button>
-                </Link>
+                </Link> */}
                 <img className="post__img" src={post.current_post.url} />
                 <div className="like_share_cont">
                   <ButtonGroup

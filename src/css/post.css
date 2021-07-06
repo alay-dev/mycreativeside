@@ -25,6 +25,74 @@
   object-fit: contain;
   object-position: center;
 }
+@media only screen and (max-width: 800px) {
+  .post__grid .left .post__img {
+    width: 18rem;
+    height: 26rem;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .post__grid {
+    flex-direction: column !important;
+    align-items: center;
+  }
+
+  .post__grid .left {
+    width: 100%;
+  }
+  .post__grid .right {
+    width: 80% !important;
+  }
+
+  .post__grid .left .post__img {
+    width: 22rem;
+    height: 30rem;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .avatar__cont .MuiAvatar-img {
+    object-fit: cover;
+    object-position: center;
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+
+  .avatar__cont .MuiAvatar-circle {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+
+  .post__grid .left .post__img {
+    width: 16rem;
+    height: 24rem;
+  }
+
+  .post__grid .left {
+    height: max-content !important;
+    padding: 0rem 0 1.2rem 0 !important;
+  }
+
+  .post__grid .right {
+    padding: 1rem 0 2rem 0 !important;
+  }
+
+  .post__grid .right .tab__panel .MuiBox-root {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .post__grid .left .avatar__cont {
+    margin-top: 1rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .post__grid .right {
+    width: 100% !important;
+  }
+}
 
 .avatar__cont {
   margin-top: 3rem;

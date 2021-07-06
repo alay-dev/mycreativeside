@@ -100,6 +100,7 @@ class CommentLikeTab extends Component {
           style={{ backgroundColor: "#d4f1f4" }}
         >
           <this.TabPanel
+            className="tab__panel"
             value={this.state.value}
             index={0}
             // dir={this.theme.direction}
@@ -149,6 +150,7 @@ class CommentLikeTab extends Component {
             </form>
           </this.TabPanel>
           <this.TabPanel
+            className="tab__panel"
             value={this.state.value}
             index={1}
             // dir={this.theme.direction}
