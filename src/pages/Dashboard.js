@@ -97,6 +97,7 @@ class Dashboard extends Component {
       edit_post: false,
       id: "",
       author_id: "",
+      edit_user: false,
     };
   }
 
@@ -116,6 +117,7 @@ class Dashboard extends Component {
   handleClose = () => {
     this.setState({
       edit_post: false,
+      edit_user: false,
     });
   };
 
@@ -136,6 +138,12 @@ class Dashboard extends Component {
       delete_user,
       set_post_author,
       update_post,
+      set_user_contact_num,
+      set_user_email,
+      set_user_img,
+      set_user_name,
+      set_user_old_img,
+      update_user,
     } = this.props;
     return (
       <div className="dashboard">
@@ -280,7 +288,16 @@ class Dashboard extends Component {
                             </IconButton>
                           </Tooltip>
                           <Tooltip title="Edit">
-                            <IconButton aria-label="edit">
+                            <IconButton
+                              aria-label="edit"
+                              onClick={() => {
+                                set_user_email(row.email);
+                                set_user_name(row.name);
+                                set_user_contact_num(row.contact_no);
+                                set_user_old_img(row.url);
+                                this.setState({ edit_user: true, id: row._id });
+                              }}
+                            >
                               <EditIcon />
                             </IconButton>
                           </Tooltip>
@@ -380,6 +397,7 @@ class Dashboard extends Component {
               type="file"
               fullWidth
               style={{ marginBottom: "1rem" }}
+              onChange={(e) => set_post_img(e.target.files[0])}
             />
             <Autocomplete
               id="combo-box-demo"
@@ -446,6 +464,68 @@ class Dashboard extends Component {
               onClick={() => {
                 console.log("component2", post);
                 update_post(this.state.id, post, login);
+                this.handleClose();
+              }}
+            >
+              update
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={this.state.edit_user}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Edit User</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Name"
+              type="text"
+              fullWidth
+              value={user.name}
+              onChange={(e) => set_user_name(e.target.value)}
+            />
+
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Email"
+              type="text"
+              fullWidth
+              value={user.email}
+              onChange={(e) => set_user_email(e.target.value)}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Email"
+              type="text"
+              fullWidth
+              inputProps={{ maxLength: 10 }}
+              value={user.contact_num}
+              onChange={(e) => set_user_contact_num(e.target.value)}
+            />
+            <InputLabel style={{ marginTop: "1rem" }}>User Img</InputLabel>
+            <TextField
+              autoFocus
+              margin="dense"
+              type="file"
+              fullWidth
+              style={{ marginBottom: "1rem" }}
+              onChange={(e) => set_user_img(e.target.files[0])}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              color="primary"
+              onClick={() => {
+                console.log("component2", post);
+                update_user(this.state.id, user, login);
                 this.handleClose();
               }}
             >

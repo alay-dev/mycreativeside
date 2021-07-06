@@ -3,7 +3,8 @@ import Post from "../../pages/Post";
 
 import {
   get_post_by_id,
-  set_current_post,
+  like_post,
+  unlike_post,
 } from "../../actions/posts/postActions";
 import {
   add_comment,
@@ -32,9 +33,6 @@ const mapDispatchToProps = (dispatch) => {
     get_post_by_id: (id) => {
       dispatch(get_post_by_id(id));
     },
-    // set_current_post: (id) => {
-    //   dispatch(set_current_post(id));
-    // },
     add_comment: (id, comment, login) => {
       dispatch(add_comment(id, comment, login));
     },
@@ -46,6 +44,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     set_comment_user_name: (name) => {
       dispatch(set_comment_user_name(name));
+    },
+    like_post: (id, login) => {
+      dispatch(like_post(id, login));
+    },
+    unlike_post: (id, login) => {
+      dispatch(unlike_post(id, login));
     },
   };
 };

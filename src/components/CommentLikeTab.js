@@ -114,10 +114,10 @@ class CommentLikeTab extends Component {
                   <React.Fragment key={i}>
                     <ListItem alignItems="flex-start">
                       <ListItemAvatar>
-                        <Avatar alt={row.user_name} src={row.user_img} />
+                        <Avatar alt={row.user.name} src={row.user.url} />
                       </ListItemAvatar>
                       <ListItemText
-                        primary={row.user_name}
+                        primary={row.user.name}
                         secondary={
                           <React.Fragment>{` —  ${row.comment}`}</React.Fragment>
                         }
@@ -158,86 +158,19 @@ class CommentLikeTab extends Component {
               className="comment__"
               style={{ height: "25rem", overflowY: "auto" }}
             >
-              <ListItem alignItems="center">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Travis Howard"
-                    // src="/static/images/avatar/2.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Summer BBQ" />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="center">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Travis Howard"
-                    // src="/static/images/avatar/2.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Summer BBQ" />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="center">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Travis Howard"
-                    // src="/static/images/avatar/2.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Summer BBQ" />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="center">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Travis Howard"
-                    // src="/static/images/avatar/2.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Summer BBQ" />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="center">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Travis Howard"
-                    // src="/static/images/avatar/2.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Summer BBQ" />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="center">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Travis Howard"
-                    // src="/static/images/avatar/2.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Summer BBQ" />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="center">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Travis Howard"
-                    // src="/static/images/avatar/2.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Summer BBQ" />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="center">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Travis Howard"
-                    // src="/static/images/avatar/2.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText primary="Summer BBQ" />
-              </ListItem>
-              <Divider variant="inset" component="li" />
+              {post.current_post.likes.map((row, i) => {
+                return (
+                  <React.Fragment key={i}>
+                    <ListItem alignItems="center">
+                      <ListItemAvatar>
+                        <Avatar alt={row.name} src={row.url} />
+                      </ListItemAvatar>
+                      <ListItemText primary={row.name} />
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                  </React.Fragment>
+                );
+              })}
             </List>
           </this.TabPanel>
         </SwipeableViews>

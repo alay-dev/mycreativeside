@@ -1,8 +1,16 @@
 import { Component } from "react";
 import Dashboard from "../../pages/Dashboard";
 // import {} from "../../actions/login/loginActions";
-import { update_user, update_password } from "../../actions/user/userActions";
-import { get_all_users, delete_user } from "../../actions/user/userActions";
+import {
+  get_all_users,
+  delete_user,
+  set_user_contact_num,
+  set_user_email,
+  set_user_img,
+  set_user_name,
+  set_user_old_img,
+  update_user,
+} from "../../actions/user/userActions";
 import {
   add_post,
   set_post_caption,
@@ -76,6 +84,24 @@ const mapDispatchToProps = (dispatch) => {
     },
     update_post: (id, post, login) => {
       dispatch(update_post(id, post, login));
+    },
+    set_user_name: (name) => {
+      dispatch(set_user_name(name));
+    },
+    set_user_email: (email) => {
+      dispatch(set_user_email(email));
+    },
+    set_user_contact_num: (contact_num) => {
+      dispatch(set_user_contact_num(contact_num));
+    },
+    set_user_img: (img) => {
+      dispatch(set_user_img(img));
+    },
+    set_user_old_img: (old_img) => {
+      dispatch(set_user_old_img(old_img));
+    },
+    update_user: (id, user, login) => {
+      dispatch(update_user(id, user, login));
     },
   };
 };

@@ -17,6 +17,11 @@ const initial_state = {
   current_post: {
     comments: [],
     tags: [],
+    likes: [],
+    author: {
+      name: "",
+      url: "",
+    },
   },
   tags: [],
   img: "",

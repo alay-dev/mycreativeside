@@ -118,14 +118,11 @@ export function add_post_api(post, login, url) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: login.email,
         date: Date.now(),
         url: url,
         caption: post.caption,
         tags: post.tags,
-        author_name: login.name,
-        author_img: login.url,
-        author_id: login._id,
+        author: login._id,
       }),
     })
       .then((response) => response.json())
@@ -268,6 +265,74 @@ export function set_post_author(id, post, login) {
           dispatch(set_post_author_name(responseJson.user.name));
           dispatch(set_post_author_email(responseJson.user.email));
           dispatch(set_post_author_img(responseJson.user.url));
+          // dispatch(update_post(post_id, post, login));
+        } else {
+          if (responseJson.message === "User does not exist") {
+            // dispatch(onLogout()) ;
+          } else {
+            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+          }
+        }
+        // dispatch(unsetLoader()) ;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function like_post(id, login) {
+  return (dispatch) => {
+    return fetch(UNIVERSAL.BASEURL + "/api/posts/like_post", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        // token: login.token,
+      },
+      body: JSON.stringify({
+        id: id,
+        user_id: login._id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.status === "success") {
+          dispatch(get_post_by_id(id, login));
+          // dispatch(update_post(post_id, post, login));
+        } else {
+          if (responseJson.message === "User does not exist") {
+            // dispatch(onLogout()) ;
+          } else {
+            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+          }
+        }
+        // dispatch(unsetLoader()) ;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function unlike_post(id, login) {
+  return (dispatch) => {
+    return fetch(UNIVERSAL.BASEURL + "/api/posts/unlike_post", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        // token: login.token,
+      },
+      body: JSON.stringify({
+        id: id,
+        user_id: login._id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.status === "success") {
+          dispatch(get_post_by_id(id, login));
           // dispatch(update_post(post_id, post, login));
         } else {
           if (responseJson.message === "User does not exist") {

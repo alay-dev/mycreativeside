@@ -1,6 +1,6 @@
 const UNIVERSAL = {
   // BASEURL: "https://adsas.com",
-  BASEURL: "http://localhost:3001",
+  BASEURL: "http://localhost:5000",
 };
 
 export default UNIVERSAL;

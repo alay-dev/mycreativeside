@@ -16,6 +16,7 @@ import moment from "moment";
 
 import "../css/post.css";
 import CommentLikeTab from "../components/CommentLikeTab";
+import { unlike_post } from "../actions/posts/postActions";
 
 const styles = (theme) => ({
   root: {
@@ -66,7 +67,8 @@ class Post extends Component {
   }
 
   render() {
-    const { classes, post, login, comment } = this.props;
+    const { classes, post, login, comment, like_post, unlike_post } =
+      this.props;
     return (
       <div className="post">
         {console.log("props", this.props)}
@@ -98,11 +100,18 @@ class Post extends Component {
                     aria-label="contained primary button group"
                   >
                     <Button
-                      onClick={() =>
-                        this.setState({ liked: !this.state.liked })
-                      }
+                      onClick={() => {
+                        post.current_post.likes.find(
+                          (row) => row._id === login._id
+                        )
+                          ? unlike_post(post.current_post._id, login)
+                          : like_post(post.current_post._id, login);
+                        this.setState({ liked: !this.state.liked });
+                      }}
                       style={
-                        this.state.liked
+                        post.current_post.likes.find(
+                          (row) => row._id === login._id
+                        )
                           ? this.state.btn_liked
                           : this.state.btn_notliked
                       }
@@ -110,7 +119,11 @@ class Post extends Component {
                       size="large"
                     >
                       {" "}
-                      {this.state.liked ? "unlike" : "like"}
+                      {post.current_post.likes.find(
+                        (row) => row._id === login._id
+                      )
+                        ? "unlike"
+                        : "like"}
                     </Button>
                     <Button
                       style={{ backgroundColor: "#05445e", color: "white" }}
@@ -122,8 +135,8 @@ class Post extends Component {
                   </ButtonGroup>
                 </div>
                 <div className="avatar__cont">
-                  <Avatar src={post.current_post.author_img} />
-                  <h3>{post.current_post.author_name}</h3>
+                  <Avatar src={post.current_post.author.url} />
+                  <h3>{post.current_post.author.name}</h3>
                 </div>
               </div>
               <div className="right">

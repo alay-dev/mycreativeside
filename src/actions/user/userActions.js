@@ -1,5 +1,16 @@
 import { reset_user } from "../login/loginActions";
-import { SET_ALL_USER } from "../../constants/user/userConst";
+import {
+  SET_ALL_USER,
+  RESET_USER,
+  SET_USER_CONFIRM_PASSWORD,
+  SET_USER_CONTACT_NUM,
+  SET_USER_CURRENT_PASSWORD,
+  SET_USER_EMAIL,
+  SET_USER_IMG,
+  SET_USER_NAME,
+  SET_USER_OLD_IMG,
+  SET_USER_PASSWORD,
+} from "../../constants/user/userConst";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
 
@@ -34,7 +45,7 @@ export function get_all_users(login) {
   };
 }
 
-export function update_user(user, login) {
+export function update_user(id, user, login) {
   return (dispatch) => {
     // dispatch(setLoader());
     if (user.img !== "") {
@@ -51,17 +62,17 @@ export function update_user(user, login) {
         function () {
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log(downloadURL);
-            dispatch(update_user_api(user, login, downloadURL));
+            dispatch(update_user_api(id, user, login, downloadURL));
           });
         }
       );
     } else {
-      dispatch(update_user_api(user, login, ""));
+      dispatch(update_user_api(id, user, login, user.old_img));
     }
   };
 }
 
-export function update_user_api(user, login, url) {
+export function update_user_api(id, user, login, url) {
   return (dispatch) => {
     // dispatch(setLoader());
     return fetch(UNIVERSAL.BASEURL + "/api/users", {
@@ -71,6 +82,7 @@ export function update_user_api(user, login, url) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        id: id,
         name: user.name,
         email: user.email,
         contact_no: user.contact_num,
@@ -80,8 +92,8 @@ export function update_user_api(user, login, url) {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status === "success") {
-          // dispatch(get_all_posts(responseJson.result));
           dispatch(reset_user());
+          dispatch(get_all_users(login));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
@@ -168,6 +180,41 @@ export function delete_user(id, login) {
 export function set_all_user(payload) {
   return {
     type: SET_ALL_USER,
+    payload: payload,
+  };
+}
+
+export function set_user_name(payload) {
+  return {
+    type: SET_USER_NAME,
+    payload: payload,
+  };
+}
+
+export function set_user_email(payload) {
+  return {
+    type: SET_USER_EMAIL,
+    payload: payload,
+  };
+}
+
+export function set_user_contact_num(payload) {
+  return {
+    type: SET_USER_CONTACT_NUM,
+    payload: payload,
+  };
+}
+
+export function set_user_img(payload) {
+  return {
+    type: SET_USER_IMG,
+    payload: payload,
+  };
+}
+
+export function set_user_old_img(payload) {
+  return {
+    type: SET_USER_OLD_IMG,
     payload: payload,
   };
 }

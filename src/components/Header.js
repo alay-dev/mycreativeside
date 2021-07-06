@@ -94,9 +94,9 @@ class Header extends Component {
           <Link to="/" className="item current">
             Home
           </Link>
-          {/* <Link className="item" onClick={() => this.setState({ modal: true })}>
+          <Link className="item" onClick={() => this.setState({ modal: true })}>
             Contribute
-          </Link> */}
+          </Link>
           {localStorage.getItem("mycreativeside_token") ? (
             <React.Fragment>
               <Link to="/" style={{ textDecoration: "none" }}>
@@ -216,7 +216,7 @@ class Header extends Component {
                       label={row}
                       onDelete={() =>
                         this.setState({
-                          tags: this.tags.filter((row2) => row2 !== row),
+                          tags: this.state.tags.filter((row2) => row2 !== row),
                         })
                       }
                       color="primary"
@@ -240,7 +240,7 @@ class Header extends Component {
                   onClick={() => {
                     set_post_tags(this.state.tags);
                     add_post(post, login);
-                    this.handleClose;
+                    this.handleClose();
                   }}
                 >
                   Submit

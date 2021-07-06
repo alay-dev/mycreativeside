@@ -49,8 +49,7 @@ export function add_comment(id, comment, login) {
         id: id,
         date: Date.now(),
         comment: comment.comment,
-        user_img: comment.user_img,
-        user_name: comment.user_name,
+        user: login._id,
       }),
     })
       .then((response) => response.json())
