@@ -14,6 +14,7 @@ import GoogleLogin from "react-google-login";
 import "../css/login.css";
 import { Component } from "react";
 import history from "../history";
+import SnackBar from "../components/Snackbar";
 
 class Login extends Component {
   componentDidMount() {
@@ -123,6 +124,7 @@ class Login extends Component {
             <Link>Forgot password ?</Link>
           </CardContent>
         </Card>
+        <SnackBar {...this.props} />
       </div>
     );
   }

@@ -4,6 +4,7 @@ import comment from "./comment/commentReducers";
 import user from "./user/userReducers";
 import login from "./login/loginReducers";
 import loader from "./loader/loaderReducers";
+import snackbar from "./snackbar/snackbarReducers";
 
 export default combineReducers({
   post,
@@ -11,4 +12,5 @@ export default combineReducers({
   user,
   login,
   loader,
+  snackbar,
 });

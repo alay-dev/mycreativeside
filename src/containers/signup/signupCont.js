@@ -1,6 +1,6 @@
 import { Component } from "react";
 import Signup from "../../pages/Signup";
-// import {} from "../../actions/login/loginActions";
+import { set_snackbar_status } from "../../actions/snackbar/snackbarActions";
 import {
   signup,
   set_user_confirm_password,
@@ -24,6 +24,7 @@ const mapStateToProps = (store) => {
     login: store.login,
     user: store.user,
     loader: store.loader,
+    snackbar: store.snackbar,
   };
 };
 
@@ -52,6 +53,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     set_reload_login: (login) => {
       dispatch(set_reload_login(login));
+    },
+    set_snackbar_status: (status) => {
+      dispatch(set_snackbar_status(false));
     },
   };
 };

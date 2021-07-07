@@ -10,6 +10,11 @@ import {
   SET_POST_AUTHOR_NAME,
   SET_POST_AUTHOR_ID,
 } from "../../constants/posts/postsConst";
+import {
+  set_snackbar_message,
+  set_snackbar_serverity,
+  set_snackbar_status,
+} from "../snackbar/snackbarActions";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
 import {
@@ -105,7 +110,6 @@ export function add_post(post, login) {
         },
         function () {
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-            console.log(downloadURL);
             dispatch(add_post_api(post, login, downloadURL));
           });
         }
@@ -118,7 +122,6 @@ export function add_post(post, login) {
 
 export function add_post_api(post, login, url) {
   return (dispatch) => {
-    console.log(login);
     // dispatch(setLoader());
     console.log(UNIVERSAL, "Baseurl...");
     return fetch(UNIVERSAL.BASEURL + "/api/posts", {
@@ -139,11 +142,16 @@ export function add_post_api(post, login, url) {
       .then((responseJson) => {
         if (responseJson.status === "success") {
           dispatch(get_all_posts());
+          dispatch(set_snackbar_message("Post successful"));
+          dispatch(set_snackbar_status(true));
+          dispatch(set_snackbar_serverity("success"));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
           } else {
-            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+            dispatch(set_snackbar_message("Something went wrong! try again"));
+            dispatch(set_snackbar_status(true));
+            dispatch(set_snackbar_serverity("error"));
           }
         }
         // dispatch(unsetLoader()) ;
@@ -294,6 +302,14 @@ export function set_post_author(id, post, login) {
 export function like_post(id, login) {
   return (dispatch) => {
     dispatch(set_like_loader());
+    if (!login.token) {
+      dispatch(get_post_by_id(id, login));
+      dispatch(set_snackbar_message("You must login to like post"));
+      dispatch(set_snackbar_status(true));
+      dispatch(set_snackbar_serverity("info"));
+      dispatch(unset_like_loader());
+      return;
+    }
     return fetch(UNIVERSAL.BASEURL + "/api/posts/like_post", {
       method: "POST",
       headers: {
@@ -310,12 +326,17 @@ export function like_post(id, login) {
       .then((responseJson) => {
         if (responseJson.status === "success") {
           dispatch(get_post_by_id(id, login));
+          dispatch(set_snackbar_message("You liked the post"));
+          dispatch(set_snackbar_status(true));
+          dispatch(set_snackbar_serverity("info"));
           // dispatch(update_post(post_id, post, login));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
           } else {
-            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+            dispatch(set_snackbar_message("Something went wrong"));
+            dispatch(set_snackbar_status(true));
+            dispatch(set_snackbar_serverity("error"));
           }
         }
         dispatch(unset_like_loader());
@@ -345,12 +366,17 @@ export function unlike_post(id, login) {
       .then((responseJson) => {
         if (responseJson.status === "success") {
           dispatch(get_post_by_id(id, login));
+          dispatch(set_snackbar_message("You unliked the post"));
+          dispatch(set_snackbar_status(true));
+          dispatch(set_snackbar_serverity("warning"));
           // dispatch(update_post(post_id, post, login));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
           } else {
-            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+            dispatch(set_snackbar_message("Something went wrong"));
+            dispatch(set_snackbar_status(true));
+            dispatch(set_snackbar_serverity("error"));
           }
         }
         dispatch(unset_like_loader());

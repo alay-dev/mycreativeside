@@ -10,7 +10,11 @@ import {
   RESET_USER,
 } from "../../constants/user/userConst";
 import { set_login_loader, unset_login_loader } from "../loader/loaderActions";
-
+import {
+  set_snackbar_message,
+  set_snackbar_serverity,
+  set_snackbar_status,
+} from "../snackbar/snackbarActions";
 import { RELOAD_LOGIN, LOGIN, LOGOUT } from "../../constants/login/loginConst";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
@@ -18,8 +22,12 @@ import history from "../../history";
 
 export function signup(user) {
   return (dispatch) => {
-    // dispatch(setLoader());
+    dispatch(set_login_loader());
     if (user.password !== user.confirm_password) {
+      dispatch(set_snackbar_message("Confirm password doesn't match password"));
+      dispatch(set_snackbar_status(true));
+      dispatch(set_snackbar_serverity("warning"));
+      dispatch(unset_login_loader());
       return;
     }
     if (user.img !== "") {
@@ -48,7 +56,6 @@ export function signup(user) {
 
 export function signup_api(user, url) {
   return (dispatch) => {
-    // dispatch(setLoader());
     console.log(UNIVERSAL, "Baseurl...");
     return fetch(UNIVERSAL.BASEURL + "/api/users/signup", {
       method: "POST",
@@ -72,9 +79,14 @@ export function signup_api(user, url) {
           history.push("/");
         } else {
           if (responseJson.message === "User does not exist") {
-            // dispatch(onLogout()) ;
+            dispatch(set_snackbar_message("Signup successfull"));
+            dispatch(set_snackbar_status(true));
+            dispatch(set_snackbar_serverity("success"));
+            dispatch(unset_login_loader());
           } else {
-            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+            dispatch(set_snackbar_message("Something went wrong! try again"));
+            dispatch(set_snackbar_status(true));
+            dispatch(set_snackbar_serverity("error"));
           }
         }
         // dispatch(unsetLoader()) ;
@@ -105,11 +117,16 @@ export function do_login(user) {
           dispatch(set_login(responseJson.data));
           dispatch(reset_user());
           history.push("/");
+          dispatch(set_snackbar_message("Login Successful"));
+          dispatch(set_snackbar_status(true));
+          dispatch(set_snackbar_serverity("success"));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
           } else {
-            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+            dispatch(set_snackbar_message("Failed. Try again"));
+            dispatch(set_snackbar_status(true));
+            dispatch(set_snackbar_serverity("error"));
           }
         }
         dispatch(unset_login_loader());
@@ -138,10 +155,15 @@ export function set_reload_login(payload) {
 }
 
 export function logout() {
-  localStorage.removeItem("mycreativeside_token");
-  localStorage.removeItem("mycreativeside_login");
-  return {
-    type: LOGOUT,
+  return (dispatch) => {
+    localStorage.removeItem("mycreativeside_token");
+    localStorage.removeItem("mycreativeside_login");
+    dispatch(set_snackbar_message("Logout Successful"));
+    dispatch(set_snackbar_status(true));
+    dispatch(set_snackbar_serverity("success"));
+    dispatch({
+      type: LOGOUT,
+    });
   };
 }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import Pagination from "@material-ui/lab/Pagination";
 import loaderCont from "../components/Loader";
+import Snackbar from "../components/Snackbar";
 import "../css/posts.css";
 import {
   Card,
@@ -28,8 +29,12 @@ class Posts extends Component {
     this.setState({ page: value });
   };
 
+  componentWillUnmount() {
+    this.props.set_snackbar_status(false);
+  }
+
   render() {
-    const { post, loader } = this.props;
+    const { post, loader, snackbar } = this.props;
     // if (this.state.loading) {
     //   return (
     //     <div
@@ -177,6 +182,7 @@ class Posts extends Component {
                 </div> */}
           </div>
         )}
+        <Snackbar {...this.props} />
       </div>
     );
   }

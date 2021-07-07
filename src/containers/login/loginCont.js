@@ -6,6 +6,7 @@ import {
   do_login,
   set_reload_login,
 } from "../../actions/login/loginActions";
+import { set_snackbar_status } from "../../actions/snackbar/snackbarActions";
 import { connect } from "react-redux";
 
 class LoginCont extends Component {
@@ -19,6 +20,7 @@ const mapStateToProps = (store) => {
     login: store.login,
     user: store.user,
     loader: store.loader,
+    snackbar: store.snackbar,
   };
 };
 
@@ -32,6 +34,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     do_login: (user) => {
       dispatch(do_login(user));
+    },
+    set_snackbar_status: (status) => {
+      dispatch(set_snackbar_status(status));
     },
   };
 };

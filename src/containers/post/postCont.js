@@ -12,6 +12,7 @@ import {
   set_comment_user_img,
   set_comment_user_name,
 } from "../../actions/comment/commentAction";
+import { set_snackbar_status } from "../../actions/snackbar/snackbarActions";
 import { connect } from "react-redux";
 
 class PostCont extends Component {
@@ -26,6 +27,7 @@ const mapStateToProps = (store) => {
     post: store.post,
     comment: store.comment,
     loader: store.loader,
+    snackbar: store.snackbar,
   };
 };
 
@@ -51,6 +53,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     unlike_post: (id, login) => {
       dispatch(unlike_post(id, login));
+    },
+    set_snackbar_status: (status) => {
+      dispatch(set_snackbar_status(status));
     },
   };
 };

@@ -10,6 +10,7 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 import history from "../history";
+import SnackBar from "../components/Snackbar";
 
 import signupImg from "../img/signup.svg";
 import "../css/Signup.css";
@@ -24,6 +25,11 @@ class Signup extends Component {
       history.push("/");
     }
   }
+
+  componentWillUnmount() {
+    this.props.set_snackbar_status(false);
+  }
+
   render() {
     const {
       user,
@@ -142,6 +148,7 @@ class Signup extends Component {
             <Link to="/login">Already have an account? Login</Link>
           </CardContent>
         </Card>
+        <SnackBar {...this.props} />
       </div>
     );
   }

@@ -17,7 +17,7 @@ import moment from "moment";
 
 import "../css/post.css";
 import CommentLikeTab from "../components/CommentLikeTab";
-import { unlike_post } from "../actions/posts/postActions";
+import SnackBar from "../components/Snackbar";
 
 const styles = (theme) => ({
   root: {
@@ -66,6 +66,9 @@ class Post extends Component {
     this.props.get_post_by_id(this.props.match.params.id);
     // this.props.set_current_post(this.props.match.params.id);
   }
+  componentWillUnmount() {
+    this.props.set_snackbar_status(false);
+  }
 
   render() {
     const { classes, post, login, comment, like_post, unlike_post, loader } =
@@ -94,22 +97,9 @@ class Post extends Component {
                     <KeyboardBackspaceIcon />
                   </Button>
                 </Link> */}
-                {loader.post_loader ? (
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      minHeight: "25rem",
-                    }}
-                    className="tab__panel--loader"
-                  >
-                    <CircularProgress />;
-                  </div>
-                ) : (
-                  <img className="post__img" src={post.current_post.url} />
-                )}
+
+                <img className="post__img" src={post.current_post.url} />
+
                 <div className="like_share_cont">
                   <ButtonGroup
                     variant="contained"
@@ -167,6 +157,7 @@ class Post extends Component {
             </div>
           </CardContent>
         </Card>
+        <SnackBar {...this.props} />
       </div>
     );
   }
