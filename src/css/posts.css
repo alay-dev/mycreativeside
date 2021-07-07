@@ -66,7 +66,7 @@
     width: 18rem !important;
   }
 
-  .posts__right .card img {
+  .posts__right .card .post_img {
     height: 16rem !important;
   }
 }
@@ -172,4 +172,8 @@
   .posts__right .pagination {
     padding: 0.4rem 0;
   }
+}
+
+.MuiCircularProgress-colorPrimary {
+  color: white !important;
 }

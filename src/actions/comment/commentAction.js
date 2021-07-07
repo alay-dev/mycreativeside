@@ -7,6 +7,10 @@ import {
 } from "../../constants/comments/commentConst";
 import UNIVERSAL from "../../config/config";
 import { get_post_by_id } from "../posts/postActions";
+import {
+  set_comment_loader,
+  unset_comment_loader,
+} from "../loader/loaderActions";
 
 export function get_all_comment(login) {
   return (dispatch) => {
@@ -37,7 +41,7 @@ export function get_all_comment(login) {
 
 export function add_comment(id, comment, login) {
   return (dispatch) => {
-    // dispatch(setLoader());
+    dispatch(set_comment_loader());
     return fetch(UNIVERSAL.BASEURL + "/api/comments", {
       method: "POST",
       headers: {
@@ -64,7 +68,7 @@ export function add_comment(id, comment, login) {
             // dispatch(responseJson.status, responseJson.message);
           }
         }
-        // dispatch(unsetLoader()) ;
+        // dispatch(unset_comment_loader());
       });
   };
 }

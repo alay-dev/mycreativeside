@@ -15,6 +15,7 @@ import {
   ListItemAvatar,
   ListItemText,
   TextField,
+  CircularProgress,
 } from "@material-ui/core";
 import { Component } from "react";
 
@@ -77,6 +78,7 @@ class CommentLikeTab extends Component {
       login,
       post,
       comment,
+      loader,
     } = this.props;
     return (
       <div>
@@ -93,19 +95,33 @@ class CommentLikeTab extends Component {
             <Tab label="Likes" {...this.a11yProps(1)} />
           </Tabs>
         </AppBar>
-        <SwipeableViews
+        {/* <SwipeableViews
           // axis={this.theme.direction === "rtl" ? "x-reverse" : "x"}
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
           style={{ backgroundColor: "#d4f1f4" }}
+        > */}
+        <this.TabPanel
+          className="tab__panel"
+          value={this.state.value}
+          index={0}
+          // dir={this.theme.direction}
+          style={{ backgroundColor: "#d4f1f4" }}
         >
-          <this.TabPanel
-            className="tab__panel"
-            value={this.state.value}
-            index={0}
-            // dir={this.theme.direction}
-            style={{ backgroundColor: "#d4f1f4" }}
-          >
+          {loader.comment_loader ? (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "25rem",
+              }}
+              className="tab__panel--loader"
+            >
+              <CircularProgress />;
+            </div>
+          ) : (
             <List
               className="comment__"
               style={{ height: "25rem", overflowY: "auto" }}
@@ -129,33 +145,48 @@ class CommentLikeTab extends Component {
                 );
               })}
             </List>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                add_comment(post.current_post._id, comment, login);
-              }}
-            >
-              <TextField
-                label="Add a comment"
-                fullWidth
-                onFocus={() => {
-                  set_comment_user_img(login.url);
-                  set_comment_user_name(login.name);
-                }}
-                onChange={(e) => {
-                  set_comment(e.target.value);
-                }}
-                value={comment.comment}
-              />
-            </form>
-          </this.TabPanel>
-          <this.TabPanel
-            className="tab__panel"
-            value={this.state.value}
-            index={1}
-            // dir={this.theme.direction}
-            style={{ backgroundColor: "#d4f1f4" }}
+          )}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              add_comment(post.current_post._id, comment, login);
+            }}
           >
+            <TextField
+              label="Add a comment"
+              fullWidth
+              onFocus={() => {
+                set_comment_user_img(login.url);
+                set_comment_user_name(login.name);
+              }}
+              onChange={(e) => {
+                set_comment(e.target.value);
+              }}
+              value={comment.comment}
+            />
+          </form>
+        </this.TabPanel>
+        <this.TabPanel
+          className="tab__panel"
+          value={this.state.value}
+          index={1}
+          // dir={this.theme.direction}
+          style={{ backgroundColor: "#d4f1f4" }}
+        >
+          {loader.like_loader ? (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "25rem",
+              }}
+              className="tab__panel--loader"
+            >
+              <CircularProgress />;
+            </div>
+          ) : (
             <List
               className="comment__"
               style={{ height: "25rem", overflowY: "auto" }}
@@ -174,8 +205,9 @@ class CommentLikeTab extends Component {
                 );
               })}
             </List>
-          </this.TabPanel>
-        </SwipeableViews>
+          )}
+        </this.TabPanel>
+        {/* </SwipeableViews> */}
       </div>
     );
   }

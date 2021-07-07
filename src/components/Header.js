@@ -74,7 +74,7 @@ class Header extends Component {
         <Link
           to="/"
           onClick={() => {
-            this.setState({ open: false });
+            this.setState({ open: false, menu: false });
           }}
         >
           <img src={logo} alt="logo" />
@@ -91,12 +91,19 @@ class Header extends Component {
           />
         )}
         <ul className="main">
-          <Link to="/" className="item current">
+          <Link to="/" className="item">
             Home
           </Link>
-          <Link className="item" onClick={() => this.setState({ modal: true })}>
-            Contribute
-          </Link>
+          {localStorage.getItem("mycreativeside_token") ? (
+            <Link
+              className="item"
+              onClick={() => this.setState({ modal: true })}
+            >
+              Contribute
+            </Link>
+          ) : (
+            ""
+          )}
           {localStorage.getItem("mycreativeside_token") ? (
             <React.Fragment>
               <Link to="/" style={{ textDecoration: "none" }}>
@@ -116,7 +123,7 @@ class Header extends Component {
               <Link to="/login" className="item">
                 Login
               </Link>
-              <Link to="signup" style={{ textDecoration: "none" }}>
+              <Link to="/signup" style={{ textDecoration: "none" }}>
                 <ColorButton color="primary" variant="contained">
                   Signup
                 </ColorButton>
@@ -124,29 +131,49 @@ class Header extends Component {
             </React.Fragment>
           )}
         </ul>
-        {this.state.open ? (
+        {this.state.menu ? (
           <ul
             className="header__nav"
             onClick={() => this.setState({ menu: false })}
           >
-            <Link to="/" className="item current">
+            <Link to="/" className="item ">
               Home
             </Link>
-            <Link
-              className="item"
-              onClick={() => this.setState({ modal: true })}
-            >
-              Contribute
-            </Link>
             {localStorage.getItem("mycreativeside_token") ? (
-              <Link to="/">
-                <div className="login__avatar">
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                  <span>Alay</span>
-                </div>
+              <Link
+                className="item"
+                onClick={() => this.setState({ modal: true })}
+              >
+                Contribute
               </Link>
             ) : (
               ""
+            )}
+            {localStorage.getItem("mycreativeside_token") ? (
+              <React.Fragment>
+                <Link to="/" style={{ textDecoration: "none" }}>
+                  <div className="login__avatar">
+                    <Avatar alt="Remy Sharp" src={login.url} />
+                    <span>{login.name ? login.name.split(" ")[0] : ""}</span>
+                  </div>
+                </Link>
+                <Link className="item" onClick={() => logout()}>
+                  <Button variant="outlined" style={{ color: "#05445e" }}>
+                    Log out
+                  </Button>
+                </Link>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Link to="/login" className="item">
+                  Login
+                </Link>
+                <Link to="/signup" style={{ textDecoration: "none" }}>
+                  <ColorButton color="primary" variant="contained">
+                    Signup
+                  </ColorButton>
+                </Link>
+              </React.Fragment>
             )}
           </ul>
         ) : (

@@ -5,6 +5,8 @@ import {
   CardContent,
   Button,
   Divider,
+  FormControl,
+  CircularProgress,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
@@ -26,7 +28,7 @@ class Login extends Component {
     console.log(response);
   };
   render() {
-    const { login, user, set_user_email, set_user_password, do_login } =
+    const { login, user, set_user_email, set_user_password, do_login, loader } =
       this.props;
     return (
       <div className="login">
@@ -72,38 +74,51 @@ class Login extends Component {
             <p>OR</p>
             <Divider />
             <br />
-            <TextField
-              fullWidth
-              label="Email"
-              type="email"
-              variant="outlined"
-              onChange={(e) => {
-                set_user_email(e.target.value);
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                do_login(user);
               }}
-            />
-            <br />
-            <br />
-            <TextField
-              fullWidth
-              label="Password"
-              type="password"
-              variant="outlined"
-              onChange={(e) => {
-                set_user_password(e.target.value);
-              }}
-            />
-            <br /> <br />
-            <div className="btn__cont">
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => {
-                  do_login(user);
+            >
+              <TextField
+                fullWidth
+                label="Email"
+                type="email"
+                variant="outlined"
+                onChange={(e) => {
+                  set_user_email(e.target.value);
                 }}
-              >
-                Login
-              </Button>
-            </div>
+              />
+              <br />
+              <br />
+              <TextField
+                fullWidth
+                label="Password"
+                type="password"
+                variant="outlined"
+                onChange={(e) => {
+                  set_user_password(e.target.value);
+                }}
+              />
+              <br /> <br />
+              <div className="btn__cont">
+                <Button
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  onClick={() => {
+                    do_login(user);
+                  }}
+                  style={{ width: "5rem", height: "2rem" }}
+                >
+                  {loader.login_loader ? (
+                    <CircularProgress size={20} />
+                  ) : (
+                    "Login"
+                  )}
+                </Button>
+              </div>
+            </form>
             <br />
             <Link>Forgot password ?</Link>
           </CardContent>

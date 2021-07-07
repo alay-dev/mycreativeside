@@ -21,6 +21,7 @@ class Posts extends Component {
     super(props);
     this.state = {
       page: 1,
+      loading: true,
     };
   }
   handleChange = (event, value) => {
@@ -28,7 +29,22 @@ class Posts extends Component {
   };
 
   render() {
-    const { post } = this.props;
+    const { post, loader } = this.props;
+    // if (this.state.loading) {
+    //   return (
+    //     <div
+    //       style={{
+    //         width: "100%",
+    //         display: "flex",
+    //         justifyContent: "center",
+    //         alignItems: "center",
+    //         height: "4rem",
+    //       }}
+    //     >
+    //       <CircularProgress />;
+    //     </div>
+    //   );
+    // }
     return (
       <div className="posts">
         <div className="posts__left">
@@ -82,71 +98,85 @@ class Posts extends Component {
             />
           </div>
         </div>
-        <div className="posts__right">
-          {post.all_post.map((row) => {
-            return (
-              <Card className="card" key={row._id}>
-                <Link to={`/post/${row._id}`}>
-                  <img src={row.url} className="post_img" />
-                </Link>
-                <div className="post--info">
-                  <div className="caption__cont">
-                    <p>{row.caption}</p>
-                  </div>
-                  <div className="author">
-                    <Avatar
-                      style={{ marginRight: "0.5rem" }}
-                      src={row.author.url}
-                    />
-                    <span>
-                      {row.author.name}
-                      <br />
-                      <span style={{ color: "GrayText" }}>
-                        {moment(row.date).format("LL")}
+        {loader.all_posts_loader ? (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <CircularProgress />;
+          </div>
+        ) : (
+          <div className="posts__right">
+            {post.all_post.map((row) => {
+              return (
+                <Card className="card" key={row._id}>
+                  <Link to={`/post/${row._id}`}>
+                    <img src={row.url} className="post_img" />
+                  </Link>
+                  <div className="post--info">
+                    <div className="caption__cont">
+                      <p>{row.caption}</p>
+                    </div>
+                    <div className="author">
+                      <Avatar
+                        style={{ marginRight: "0.5rem" }}
+                        src={row.author.url}
+                      />
+                      <span>
+                        {row.author.name}
+                        <br />
+                        <span style={{ color: "GrayText" }}>
+                          {moment(row.date).format("LL")}
+                        </span>
                       </span>
-                    </span>
+                    </div>
                   </div>
-                </div>
-                <div className="stats">
-                  <div className="like">
-                    <ThumbUpAltIcon
-                      style={{
-                        color: "#05445e",
-                        marginRight: "0.5rem",
-                        fontSize: "1.2rem",
-                      }}
-                    />
-                    <span>{row.likes ? row.likes.length : ""}</span>
+                  <div className="stats">
+                    <div className="like">
+                      <ThumbUpAltIcon
+                        style={{
+                          color: "#05445e",
+                          marginRight: "0.5rem",
+                          fontSize: "1.2rem",
+                        }}
+                      />
+                      <span>{row.likes ? row.likes.length : ""}</span>
+                    </div>
+                    <div className="view">
+                      <VisibilityIcon
+                        style={{
+                          color: "#05445e",
+                          marginRight: "0.5rem",
+                          fontSize: "1.2rem",
+                        }}
+                      />
+                      <span>{row.views ? row.views.length : ""}</span>
+                    </div>
+                    <div className="comment">
+                      <ChatBubbleIcon
+                        style={{
+                          color: "#05445e",
+                          marginRight: "0.5rem",
+                          fontSize: "1.2rem",
+                        }}
+                      />
+                      <span>{row.comments ? row.comments.length : ""}</span>
+                    </div>
                   </div>
-                  <div className="view">
-                    <VisibilityIcon
-                      style={{
-                        color: "#05445e",
-                        marginRight: "0.5rem",
-                        fontSize: "1.2rem",
-                      }}
-                    />
-                    <span>{row.views ? row.views.length : ""}</span>
-                  </div>
-                  <div className="comment">
-                    <ChatBubbleIcon
-                      style={{
-                        color: "#05445e",
-                        marginRight: "0.5rem",
-                        fontSize: "1.2rem",
-                      }}
-                    />
-                    <span>{row.comments ? row.comments.length : ""}</span>
-                  </div>
-                </div>
-              </Card>
-            );
-          })}
+                </Card>
+              );
+            })}
 
-          {/* <div className="pagination">
+            {/* <div className="pagination">
                     <Pagination color="primary" count={15} page={page} onChange={handleChange} />    
                 </div> */}
-        </div>
+          </div>
+        )}
       </div>
     );
   }

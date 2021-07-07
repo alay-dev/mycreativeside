@@ -5,6 +5,7 @@ import {
   Divider,
   Button,
   ButtonGroup,
+  CircularProgress,
 } from "@material-ui/core";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -67,7 +68,7 @@ class Post extends Component {
   }
 
   render() {
-    const { classes, post, login, comment, like_post, unlike_post } =
+    const { classes, post, login, comment, like_post, unlike_post, loader } =
       this.props;
     return (
       <div className="post">
@@ -93,7 +94,22 @@ class Post extends Component {
                     <KeyboardBackspaceIcon />
                   </Button>
                 </Link> */}
-                <img className="post__img" src={post.current_post.url} />
+                {loader.post_loader ? (
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      minHeight: "25rem",
+                    }}
+                    className="tab__panel--loader"
+                  >
+                    <CircularProgress />;
+                  </div>
+                ) : (
+                  <img className="post__img" src={post.current_post.url} />
+                )}
                 <div className="like_share_cont">
                   <ButtonGroup
                     variant="contained"

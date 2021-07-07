@@ -9,6 +9,8 @@ import {
   SET_USER_CURRENT_PASSWORD,
   RESET_USER,
 } from "../../constants/user/userConst";
+import { set_login_loader, unset_login_loader } from "../loader/loaderActions";
+
 import { RELOAD_LOGIN, LOGIN, LOGOUT } from "../../constants/login/loginConst";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
@@ -17,6 +19,9 @@ import history from "../../history";
 export function signup(user) {
   return (dispatch) => {
     // dispatch(setLoader());
+    if (user.password !== user.confirm_password) {
+      return;
+    }
     if (user.img !== "") {
       var storageRef = firebase.storage().ref();
       var uploadTask = storageRef
@@ -82,7 +87,7 @@ export function signup_api(user, url) {
 
 export function do_login(user) {
   return (dispatch) => {
-    // dispatch(setLoader());
+    dispatch(set_login_loader());
     return fetch(UNIVERSAL.BASEURL + "/api/users/login", {
       method: "POST",
       headers: {
@@ -107,7 +112,7 @@ export function do_login(user) {
             // dispatch(set_snack_bar(responseJson.status, responseJson.message))
           }
         }
-        // dispatch(unsetLoader()) ;
+        dispatch(unset_login_loader());
       })
       .catch((error) => {
         console.log(error);

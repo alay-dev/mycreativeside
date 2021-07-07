@@ -132,7 +132,7 @@
 }
 
 .comment__::-webkit-scrollbar {
-  width: 0.45rem;
+  width: 0.35rem;
   border-radius: 1rem;
 }
 
@@ -145,4 +145,8 @@
   background-color: darkgrey;
   border-radius: 1rem;
   outline: none;
+}
+
+.tab__panel--loader .MuiCircularProgress-colorPrimary {
+  color: #05445e !important;
 }

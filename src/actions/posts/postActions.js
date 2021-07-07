@@ -12,10 +12,19 @@ import {
 } from "../../constants/posts/postsConst";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
+import {
+  set_all_post_loader,
+  unset_all_post_loader,
+  set_like_loader,
+  unset_like_loader,
+  unset_comment_loader,
+  set_post_loader,
+  unset_post_loader,
+} from "../loader/loaderActions";
 
 export function get_all_posts(login) {
   return (dispatch) => {
-    // dispatch(setLoader());
+    dispatch(set_all_post_loader());
 
     return fetch(UNIVERSAL.BASEURL + "/api/posts", {
       method: "GET",
@@ -36,7 +45,7 @@ export function get_all_posts(login) {
             // dispatch(set_snack_bar(responseJson.status, responseJson.message))
           }
         }
-        // dispatch(unsetLoader()) ;
+        dispatch(unset_all_post_loader());
       })
       .catch((error) => {
         console.log(error);
@@ -46,7 +55,7 @@ export function get_all_posts(login) {
 
 export function get_post_by_id(id, login) {
   return (dispatch) => {
-    // dispatch(setLoader());
+    dispatch(set_post_loader());
 
     return fetch(UNIVERSAL.BASEURL + "/api/posts/get_post", {
       method: "POST",
@@ -71,7 +80,8 @@ export function get_post_by_id(id, login) {
             // dispatch(set_snack_bar(responseJson.status, responseJson.message))
           }
         }
-        // dispatch(unsetLoader()) ;
+        dispatch(unset_comment_loader());
+        dispatch(unset_post_loader());
       })
       .catch((error) => {
         console.log(error);
@@ -283,6 +293,7 @@ export function set_post_author(id, post, login) {
 
 export function like_post(id, login) {
   return (dispatch) => {
+    dispatch(set_like_loader());
     return fetch(UNIVERSAL.BASEURL + "/api/posts/like_post", {
       method: "POST",
       headers: {
@@ -307,7 +318,7 @@ export function like_post(id, login) {
             // dispatch(set_snack_bar(responseJson.status, responseJson.message))
           }
         }
-        // dispatch(unsetLoader()) ;
+        dispatch(unset_like_loader());
       })
       .catch((error) => {
         console.log(error);
@@ -317,6 +328,7 @@ export function like_post(id, login) {
 
 export function unlike_post(id, login) {
   return (dispatch) => {
+    dispatch(set_like_loader());
     return fetch(UNIVERSAL.BASEURL + "/api/posts/unlike_post", {
       method: "POST",
       headers: {
@@ -341,7 +353,7 @@ export function unlike_post(id, login) {
             // dispatch(set_snack_bar(responseJson.status, responseJson.message))
           }
         }
-        // dispatch(unsetLoader()) ;
+        dispatch(unset_like_loader());
       })
       .catch((error) => {
         console.log(error);
