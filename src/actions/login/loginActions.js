@@ -19,10 +19,25 @@ import { RELOAD_LOGIN, LOGIN, LOGOUT } from "../../constants/login/loginConst";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
 import history from "../../history";
+import { facebookProvider, googleProvider } from "../../config/firebaseConfig";
 
 export function signup(user) {
   return (dispatch) => {
     dispatch(set_login_loader());
+    if (user.name === "") {
+      dispatch(unset_login_loader());
+      dispatch(set_snackbar_message("Please provide your name"));
+      dispatch(set_snackbar_status(true));
+      dispatch(set_snackbar_serverity("warning"));
+      return;
+    }
+    if (user.email === "") {
+      dispatch(unset_login_loader());
+      dispatch(set_snackbar_message("Please provide your email"));
+      dispatch(set_snackbar_status(true));
+      dispatch(set_snackbar_serverity("warning"));
+      return;
+    }
     if (user.password !== user.confirm_password) {
       dispatch(set_snackbar_message("Confirm password doesn't match password"));
       dispatch(set_snackbar_status(true));
@@ -100,6 +115,13 @@ export function signup_api(user, url) {
 export function do_login(user) {
   return (dispatch) => {
     dispatch(set_login_loader());
+    if (user.email === "" || user.password === "") {
+      dispatch(set_snackbar_message("Email or Password is missing"));
+      dispatch(set_snackbar_status(true));
+      dispatch(set_snackbar_serverity("warning"));
+      dispatch(unset_login_loader());
+      return;
+    }
     return fetch(UNIVERSAL.BASEURL + "/api/users/login", {
       method: "POST",
       headers: {
@@ -164,6 +186,31 @@ export function logout() {
     dispatch({
       type: LOGOUT,
     });
+  };
+}
+
+export function googleLogin() {
+  return (dispatch) => {
+    firebase
+      .auth()
+      .signInWithPopup(googleProvider)
+      .then((res) => {
+        let payload = {
+          token: res.credential.idToken,
+          user: {
+            _id: res.additionalUserInfo.profile.id,
+            name: res.additionalUserInfo.profile.name,
+            email: res.additionalUserInfo.profile.email,
+            contact_no: "",
+            url: res.additionalUserInfo.profile.picture,
+          },
+        };
+        dispatch(set_login(payload));
+        history.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 }
 

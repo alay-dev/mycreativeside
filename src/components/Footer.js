@@ -18,9 +18,15 @@ const Footer = () => {
           <img src={admin} alt="admin img" />
           <p>Abhishek Gupta</p>
           <div className="social">
-            <i className="fab fa-facebook" />
-            <i className="fab fa-instagram" />
-            <i className="fab fa-twitter" />
+            <a href="https://www.facebook.com/profile.php?id=100008729387495">
+              <i className="fab fa-facebook" />
+            </a>
+            <a href="https://www.instagram.com/invites/contact/?i=1j4mtqahn97c6&utm_content=2ojrefy">
+              <i className="fab fa-instagram" />
+            </a>
+            <a href="https://t.me/mycreativeside">
+              <i className="fab fa-telegram" />
+            </a>
           </div>
         </div>
       </div>

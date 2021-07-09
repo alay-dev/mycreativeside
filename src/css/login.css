@@ -13,7 +13,7 @@
 }
 
 .login h4 {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   text-align: center;
   font-size: 1.5rem;
 }
@@ -45,6 +45,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 .login p {

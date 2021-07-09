@@ -21,6 +21,7 @@ const mapStateToProps = (store) => {
   return {
     login: store.login,
     post: store.post,
+    loader: store.loader,
   };
 };
 

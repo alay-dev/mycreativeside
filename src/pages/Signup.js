@@ -79,7 +79,6 @@ class Signup extends Component {
                 Profile pic
               </InputLabel>
               <Input
-                required
                 id="outlined-basic"
                 label="Choose post image "
                 variant="outlined"
@@ -129,12 +128,16 @@ class Signup extends Component {
               <div className="btn__cont">
                 <Button
                   type="submit"
-                  color="primary"
                   variant="contained"
                   onClick={() => {
                     signup(user);
                   }}
-                  style={{ width: "5rem", height: "2rem" }}
+                  style={{
+                    width: "5rem",
+                    height: "2rem",
+                    backgroundColor: "#05445e",
+                    color: "white",
+                  }}
                 >
                   {loader.login_loader ? (
                     <CircularProgress size={20} />

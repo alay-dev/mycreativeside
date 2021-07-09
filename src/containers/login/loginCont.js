@@ -5,6 +5,7 @@ import {
   set_user_password,
   do_login,
   set_reload_login,
+  googleLogin,
 } from "../../actions/login/loginActions";
 import { set_snackbar_status } from "../../actions/snackbar/snackbarActions";
 import { connect } from "react-redux";
@@ -37,6 +38,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     set_snackbar_status: (status) => {
       dispatch(set_snackbar_status(status));
+    },
+    googleLogin: () => {
+      dispatch(googleLogin());
     },
   };
 };

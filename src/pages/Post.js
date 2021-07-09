@@ -51,6 +51,7 @@ class Post extends Component {
     this.state = {
       tabIndex: 0,
       liked: false,
+      btn__disable: false,
       btn_notliked: {
         backgroundColor: "#05445e",
         color: "white",
@@ -106,6 +107,7 @@ class Post extends Component {
                     aria-label="contained primary button group"
                   >
                     <Button
+                      disabled={this.state.btn__disable}
                       onClick={() => {
                         post.current_post.likes.find(
                           (row) => row._id === login._id
@@ -113,6 +115,12 @@ class Post extends Component {
                           ? unlike_post(post.current_post._id, login)
                           : like_post(post.current_post._id, login);
                         this.setState({ liked: !this.state.liked });
+                        this.setState({
+                          btn__disable: true,
+                        });
+                        setTimeout(() => {
+                          this.setState({ btn__disable: false });
+                        }, 1000);
                       }}
                       style={
                         post.current_post.likes.find(

@@ -9,6 +9,7 @@ import {
   SET_POST_AUTHOR_IMG,
   SET_POST_AUTHOR_NAME,
   SET_POST_AUTHOR_ID,
+  RESET_POST,
 } from "../../constants/posts/postsConst";
 import {
   set_snackbar_message,
@@ -96,7 +97,7 @@ export function get_post_by_id(id, login) {
 
 export function add_post(post, login) {
   return (dispatch) => {
-    // dispatch(setLoader());
+    dispatch(set_post_loader());
     if (post.img !== "") {
       var storageRef = firebase.storage().ref();
       var uploadTask = storageRef
@@ -122,7 +123,6 @@ export function add_post(post, login) {
 
 export function add_post_api(post, login, url) {
   return (dispatch) => {
-    // dispatch(setLoader());
     console.log(UNIVERSAL, "Baseurl...");
     return fetch(UNIVERSAL.BASEURL + "/api/posts", {
       method: "POST",
@@ -145,16 +145,18 @@ export function add_post_api(post, login, url) {
           dispatch(set_snackbar_message("Post successful"));
           dispatch(set_snackbar_status(true));
           dispatch(set_snackbar_serverity("success"));
+          dispatch(unset_post_loader());
         } else {
           if (responseJson.message === "User does not exist") {
-            // dispatch(onLogout()) ;
+            dispatch(unset_post_loader());
           } else {
             dispatch(set_snackbar_message("Something went wrong! try again"));
             dispatch(set_snackbar_status(true));
             dispatch(set_snackbar_serverity("error"));
+            dispatch(reset_post());
+            dispatch(unset_post_loader());
           }
         }
-        // dispatch(unsetLoader()) ;
       })
       .catch((error) => {
         console.log(error);
@@ -302,7 +304,7 @@ export function set_post_author(id, post, login) {
 export function like_post(id, login) {
   return (dispatch) => {
     dispatch(set_like_loader());
-    if (!login.token) {
+    if (!login._id) {
       dispatch(get_post_by_id(id, login));
       dispatch(set_snackbar_message("You must login to like post"));
       dispatch(set_snackbar_status(true));
@@ -455,5 +457,11 @@ export function set_post_tags(payload) {
   return {
     type: SET_POST_TAGS,
     payload: payload,
+  };
+}
+
+export function reset_post() {
+  return {
+    type: RESET_POST,
   };
 }

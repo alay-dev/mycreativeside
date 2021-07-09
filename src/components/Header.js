@@ -11,6 +11,7 @@ import {
   TextField,
   Chip,
   Avatar,
+  CircularProgress,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { green, blueGrey } from "@material-ui/core/colors";
@@ -25,9 +26,9 @@ import { Component } from "react";
 const ColorButton = withStyles((theme) => ({
   root: {
     color: theme.palette.getContrastText(blueGrey[400]),
-    backgroundColor: green[500],
+    backgroundColor: "#05445e",
     "&:hover": {
-      backgroundColor: green[700],
+      backgroundColor: "#6C6392",
     },
   },
 }))(Button);
@@ -68,6 +69,7 @@ class Header extends Component {
       set_post_caption,
       set_post_img,
       set_post_tags,
+      loader,
     } = this.props;
     return (
       <div className="header">
@@ -113,9 +115,9 @@ class Header extends Component {
                 </div>
               </Link>
               <Link className="item" onClick={() => logout()}>
-                <Button variant="outlined" style={{ color: "#05445e" }}>
+                <ColorButton variant="outlined" style={{ color: "#05445e" }}>
                   Log out
-                </Button>
+                </ColorButton>
               </Link>
             </React.Fragment>
           ) : (
@@ -158,9 +160,9 @@ class Header extends Component {
                   </div>
                 </Link>
                 <Link className="item" onClick={() => logout()}>
-                  <Button variant="outlined" style={{ color: "#05445e" }}>
+                  <ColorButton variant="outlined" style={{ color: "#05445e" }}>
                     Log out
-                  </Button>
+                  </ColorButton>
                 </Link>
               </React.Fragment>
             ) : (
@@ -264,13 +266,20 @@ class Header extends Component {
                 <Button
                   color="primary"
                   variant="contained"
+                  style={{ width: "5rem", height: "2rem" }}
                   onClick={() => {
                     set_post_tags(this.state.tags);
                     add_post(post, login);
-                    this.handleClose();
+                    // {
+                    //   loader.post_loader ? "" : this.handleClose();
+                    // }
                   }}
                 >
-                  Submit
+                  {loader.post_loader ? (
+                    <CircularProgress size={20} />
+                  ) : (
+                    "Submit"
+                  )}
                 </Button>
               </div>
             </div>

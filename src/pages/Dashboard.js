@@ -35,6 +35,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React from "react";
 import "../css/dashboard.css";
 import { Component } from "react";
+import history from "../history";
 
 function createData(name, email, title, file, action) {
   return { name, email, title, file };
@@ -102,6 +103,9 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    if (this.props.login.type !== "A") {
+      history.push("/");
+    }
     this.props.get_all_posts();
     this.props.get_all_users();
   }
