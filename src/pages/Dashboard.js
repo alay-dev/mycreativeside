@@ -334,9 +334,11 @@ class Dashboard extends Component {
                       <TableRow key={i}>
                         <TableCell align="center">{i + 1}</TableCell>
                         <TableCell align="center" component="th" scope="row">
-                          {row.email}
+                          {row.author ? row.author.email : ""}
                         </TableCell>
-                        <TableCell align="center">{row.caption}</TableCell>
+                        <TableCell align="center">
+                          {row.caption ? row.caption : ""}
+                        </TableCell>
                         <TableCell align="center">
                           <Tooltip title="Delete">
                             <IconButton

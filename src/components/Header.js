@@ -106,6 +106,13 @@ class Header extends Component {
           ) : (
             ""
           )}
+          {login.type === "A" ? (
+            <Link to="/dashboard" className="item">
+              Dashboard
+            </Link>
+          ) : (
+            ""
+          )}
           {localStorage.getItem("mycreativeside_token") ? (
             <React.Fragment>
               <Link to="/me" style={{ textDecoration: "none" }}>

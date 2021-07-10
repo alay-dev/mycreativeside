@@ -1,12 +1,120 @@
-.me__cont {
-  padding: 6rem 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 4rem;
+.me__profile {
+  background: url("../img/postbg.svg");
+  min-height: 100vh;
+  padding: 7rem 4rem 2rem 4rem;
 }
 
-.update_profile {
-  width: 24rem;
+.info__cont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.me__profile .info__cont .info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.me__profile .info__cont .info h2 {
+  margin: 0 0 1rem 0;
+}
+
+.me__profile .MuiCard-root {
+  padding: 2rem;
+  background-color: #d4f1f4;
+}
+
+.me__card--content {
+  display: flex;
+  gap: 8rem;
+  min-height: 22rem;
+}
+
+.me__profile .me__card--content ul {
+  width: 12rem;
+  list-style: none;
+  background-color: #05445e;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 1rem;
+  padding: 2rem 0rem 2rem 1rem;
+  color: #fff;
+}
+
+.me__profile .me__card--content .panel h3 {
+  margin-bottom: 2rem;
+}
+
+.me__card--content ul li {
+  width: 100%;
+  height: 3.5rem;
+  margin: 0.2rem;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-left: 0.7rem;
+  gap: 0.8rem;
+  cursor: pointer;
+}
+
+@keyframes change_nav {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.me__card--content ul li.active {
+  color: black;
+  width: 11.5rem;
+  box-shadow: 2px 4px 16px -2px rgba(0, 0, 0, 0.34);
+  border-radius: 0.2rem;
+  background-color: #fff;
+  animation: change_nav 0.3s ease-out;
+}
+
+@media only screen and (max-width: 850px) {
+  .me__profile {
+    padding: 7rem 0.5rem 2rem 0.5rem;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .me__profile .MuiCard-root {
+    padding: 0.5rem;
+  }
+  .me__card--content {
+    gap: 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  .me__card--content {
+    gap: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .me__card--content ul {
+    width: 13rem;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .me__profile .info__cont .info {
+    gap: 1rem;
+  }
+
+  .me .info__cont {
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
 }

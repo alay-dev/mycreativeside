@@ -38,7 +38,7 @@ export function get_all_users(login) {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        // token: login.token,
+        token: localStorage.getItem("mycreativeside_token"),
       },
     })
       .then((response) => response.json())
