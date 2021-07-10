@@ -130,10 +130,10 @@ class Posts extends Component {
                     <div className="author">
                       <Avatar
                         style={{ marginRight: "0.5rem" }}
-                        src={row.author.url}
+                        src={row.author ? row.author.url : ""}
                       />
                       <span>
-                        {row.author.name}
+                        {row.author ? row.author.name : "unknown"}
                         <br />
                         <span style={{ color: "GrayText" }}>
                           {moment(row.date).format("LL")}

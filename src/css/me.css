@@ -1,0 +1,12 @@
+.me__cont {
+  padding: 6rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 4rem;
+}
+
+.update_profile {
+  width: 24rem;
+}

@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import { Component } from "react";
 import firebase from "firebase";
 import firebaseConfig from "./config/firebaseConfig";
+import MeCont from "./containers/me/meCont";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +31,7 @@ class App extends Component {
           <Route exact path="/dashboard" component={DashboardCont} />
           <Route exact path="/signup" component={SignupCont} />
           <Route exact path="/post/:id" component={PostCont} />
+          <Route exact path="/me" component={MeCont} />
         </Switch>
         <Footer />
       </Router>

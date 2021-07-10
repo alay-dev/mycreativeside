@@ -108,16 +108,14 @@ class Header extends Component {
           )}
           {localStorage.getItem("mycreativeside_token") ? (
             <React.Fragment>
-              <Link to="/" style={{ textDecoration: "none" }}>
+              <Link to="/me" style={{ textDecoration: "none" }}>
                 <div className="login__avatar">
-                  <Avatar alt="Remy Sharp" src={login.url} />
+                  <Avatar alt={login.name} src={login.url} />
                   <span>{login.name ? login.name.split(" ")[0] : ""}</span>
                 </div>
               </Link>
               <Link className="item" onClick={() => logout()}>
-                <ColorButton variant="outlined" style={{ color: "#05445e" }}>
-                  Log out
-                </ColorButton>
+                <ColorButton variant="outlined">Log out</ColorButton>
               </Link>
             </React.Fragment>
           ) : (
@@ -153,16 +151,14 @@ class Header extends Component {
             )}
             {localStorage.getItem("mycreativeside_token") ? (
               <React.Fragment>
-                <Link to="/" style={{ textDecoration: "none" }}>
+                <Link to="/me" style={{ textDecoration: "none" }}>
                   <div className="login__avatar">
-                    <Avatar alt="Remy Sharp" src={login.url} />
+                    <Avatar alt={login.name} src={login.url} />
                     <span>{login.name ? login.name.split(" ")[0] : ""}</span>
                   </div>
                 </Link>
                 <Link className="item" onClick={() => logout()}>
-                  <ColorButton variant="outlined" style={{ color: "#05445e" }}>
-                    Log out
-                  </ColorButton>
+                  <ColorButton variant="outlined">Log out</ColorButton>
                 </Link>
               </React.Fragment>
             ) : (

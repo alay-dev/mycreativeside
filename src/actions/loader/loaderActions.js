@@ -9,6 +9,12 @@ import {
   UNSET_ALL_POSTS_LOADER,
   SET_LOGIN_LOADER,
   UNSET_LOGIN_LOADER,
+  SET_DELETE_LOADER,
+  SET_UPDATE_PASSWORD_LOADER,
+  SET_UPDATE_PROFILE_LOADER,
+  UNSET_DELETE_LOADER,
+  UNSET_UPDATE_PASSWORD_LOADER,
+  UNSET_UPDATE_PROFILE_LOADER,
 } from "../../constants/loader/loaderConst";
 
 export function set_all_post_loader(payload) {
@@ -77,6 +83,48 @@ export function set_login_loader(payload) {
 export function unset_login_loader(payload) {
   return {
     type: UNSET_LOGIN_LOADER,
+    payload: payload,
+  };
+}
+
+export function set_update_profile_loader(payload) {
+  return {
+    type: SET_UPDATE_PROFILE_LOADER,
+    payload: payload,
+  };
+}
+
+export function unset_update_profile_loader(payload) {
+  return {
+    type: UNSET_UPDATE_PROFILE_LOADER,
+    payload: payload,
+  };
+}
+
+export function set_update_password_loader(payload) {
+  return {
+    type: SET_UPDATE_PASSWORD_LOADER,
+    payload: payload,
+  };
+}
+
+export function unset_update_password_loader(payload) {
+  return {
+    type: UNSET_UPDATE_PASSWORD_LOADER,
+    payload: payload,
+  };
+}
+
+export function set_delete_loader(payload) {
+  return {
+    type: SET_DELETE_LOADER,
+    payload: payload,
+  };
+}
+
+export function unset_delete_loader(payload) {
+  return {
+    type: UNSET_DELETE_LOADER,
     payload: payload,
   };
 }

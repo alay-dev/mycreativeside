@@ -48,7 +48,7 @@ export function signup(user) {
     if (user.img !== "") {
       var storageRef = firebase.storage().ref();
       var uploadTask = storageRef
-        .child("posts/" + user.name + ".png")
+        .child("users/" + user.name + ".png")
         .put(user.img);
       uploadTask.on(
         "state_changed",
@@ -146,7 +146,7 @@ export function do_login(user) {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
           } else {
-            dispatch(set_snackbar_message("Failed. Try again"));
+            dispatch(set_snackbar_message(responseJson.message));
             dispatch(set_snackbar_status(true));
             dispatch(set_snackbar_serverity("error"));
           }
@@ -183,6 +183,7 @@ export function logout() {
     dispatch(set_snackbar_message("Logout Successful"));
     dispatch(set_snackbar_status(true));
     dispatch(set_snackbar_serverity("success"));
+    history.push("/");
     dispatch({
       type: LOGOUT,
     });

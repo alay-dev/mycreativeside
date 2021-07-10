@@ -1,4 +1,4 @@
-import { reset_user } from "../login/loginActions";
+import { logout, reset_user, set_login } from "../login/loginActions";
 import {
   SET_ALL_USER,
   RESET_USER,
@@ -11,8 +11,23 @@ import {
   SET_USER_OLD_IMG,
   SET_USER_PASSWORD,
 } from "../../constants/user/userConst";
+import {
+  set_snackbar_message,
+  set_snackbar_serverity,
+  set_snackbar_status,
+} from "../snackbar/snackbarActions";
+import { LOGIN } from "../../constants/login/loginConst";
 import UNIVERSAL from "../../config/config";
 import firebase from "firebase";
+import {
+  set_update_profile_loader,
+  set_delete_loader,
+  set_like_loader,
+  set_update_password_loader,
+  unset_update_password_loader,
+  unset_update_profile_loader,
+  unset_delete_loader,
+} from "../loader/loaderActions";
 
 export function get_all_users(login) {
   return (dispatch) => {
@@ -47,11 +62,11 @@ export function get_all_users(login) {
 
 export function update_user(id, user, login) {
   return (dispatch) => {
-    // dispatch(setLoader());
+    dispatch(set_update_profile_loader());
     if (user.img !== "") {
       var storageRef = firebase.storage().ref();
       var uploadTask = storageRef
-        .child("posts/" + user.name + ".png")
+        .child("users/" + user.name + ".png")
         .put(user.img);
       uploadTask.on(
         "state_changed",
@@ -80,6 +95,7 @@ export function update_user_api(id, user, login, url) {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        token: localStorage.getItem("mycreativeside_token"),
       },
       body: JSON.stringify({
         id: id,
@@ -92,8 +108,17 @@ export function update_user_api(id, user, login, url) {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status === "success") {
-          dispatch(reset_user());
-          dispatch(get_all_users(login));
+          localStorage.setItem(
+            "mycreativeside_login",
+            JSON.stringify(responseJson.data)
+          );
+          dispatch({
+            type: LOGIN,
+            payload: responseJson.data,
+          });
+          dispatch(set_snackbar_message("update Successful"));
+          dispatch(set_snackbar_status(true));
+          dispatch(set_snackbar_serverity("success"));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
@@ -101,7 +126,7 @@ export function update_user_api(id, user, login, url) {
             // dispatch(set_snack_bar(responseJson.status, responseJson.message))
           }
         }
-        // dispatch(unsetLoader()) ;
+        dispatch(unset_update_profile_loader());
       })
       .catch((error) => {
         console.log(error);
@@ -111,12 +136,21 @@ export function update_user_api(id, user, login, url) {
 
 export function update_password(id, user, login) {
   return (dispatch) => {
-    // dispatch(setLoader());
+    console.log(user);
+    dispatch(set_update_password_loader());
+    if (user.password !== user.confirm_password) {
+      dispatch(set_snackbar_message("confirm password should match password"));
+      dispatch(set_snackbar_status(true));
+      dispatch(set_snackbar_serverity("warning"));
+      dispatch(unset_update_password_loader());
+      return;
+    }
     return fetch(UNIVERSAL.BASEURL + "/api/users/update_password", {
       method: "PATCH",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        token: localStorage.getItem("mycreativeside_token"),
       },
       body: JSON.stringify({
         id: id,
@@ -127,13 +161,19 @@ export function update_password(id, user, login) {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status === "success") {
-          // dispatch(get_all_posts(responseJson.result));
+          dispatch(set_snackbar_message("update Successful"));
+          dispatch(set_snackbar_status(true));
+          dispatch(set_snackbar_serverity("success"));
           dispatch(reset_user());
+          dispatch(unset_update_password_loader());
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
           } else {
-            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+            dispatch(set_snackbar_message(responseJson.message));
+            dispatch(set_snackbar_status(true));
+            dispatch(set_snackbar_serverity("error"));
+            dispatch(unset_update_password_loader());
           }
         }
         // dispatch(unsetLoader()) ;
@@ -146,12 +186,13 @@ export function update_password(id, user, login) {
 
 export function delete_user(id, login) {
   return (dispatch) => {
-    // dispatch(setLoader());
+    dispatch(set_delete_loader());
     return fetch(UNIVERSAL.BASEURL + "/api/users", {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        token: localStorage.getItem("mycreativeside_token"),
       },
       body: JSON.stringify({
         id: id,
@@ -161,6 +202,44 @@ export function delete_user(id, login) {
       .then((responseJson) => {
         if (responseJson.status === "success") {
           dispatch(get_all_users(login));
+          dispatch(reset_user());
+        } else {
+          if (responseJson.message === "User does not exist") {
+            // dispatch(onLogout()) ;
+          } else {
+            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
+          }
+        }
+        // dispatch(unsetLoader()) ;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function delete_self(id, login) {
+  return (dispatch) => {
+    dispatch(set_delete_loader());
+    return fetch(UNIVERSAL.BASEURL + "/api/users/delete_self", {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        token: localStorage.getItem("mycreativeside_token"),
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.status === "success") {
+          dispatch(set_snackbar_message("Accoutn Deleted"));
+          dispatch(set_snackbar_status(true));
+          dispatch(set_snackbar_serverity("success"));
+          dispatch(unset_delete_loader());
+          history.push("/");
           dispatch(reset_user());
         } else {
           if (responseJson.message === "User does not exist") {
@@ -205,6 +284,13 @@ export function set_user_contact_num(payload) {
   };
 }
 
+export function set_user_confirm_password(payload) {
+  return {
+    type: SET_USER_CONFIRM_PASSWORD,
+    payload: payload,
+  };
+}
+
 export function set_user_img(payload) {
   return {
     type: SET_USER_IMG,
@@ -215,6 +301,20 @@ export function set_user_img(payload) {
 export function set_user_old_img(payload) {
   return {
     type: SET_USER_OLD_IMG,
+    payload: payload,
+  };
+}
+
+export function set_user_password(payload) {
+  return {
+    type: SET_USER_PASSWORD,
+    payload: payload,
+  };
+}
+
+export function set_user_current_password(payload) {
+  return {
+    type: SET_USER_CURRENT_PASSWORD,
     payload: payload,
   };
 }

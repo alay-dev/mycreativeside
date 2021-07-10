@@ -149,8 +149,18 @@ class Post extends Component {
                   </ButtonGroup>
                 </div>
                 <div className="avatar__cont">
-                  <Avatar src={post.current_post.author.url} />
-                  <h3>{post.current_post.author.name}</h3>
+                  <Avatar
+                    src={
+                      post.current_post.author
+                        ? post.current_post.author.url
+                        : ""
+                    }
+                  />
+                  <h3>
+                    {post.current_post.author
+                      ? post.current_post.author.name
+                      : "unknown"}
+                  </h3>
                 </div>
               </div>
               <div className="right">
