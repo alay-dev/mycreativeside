@@ -11,30 +11,40 @@ import {
   set_comment_loader,
   unset_comment_loader,
 } from "../loader/loaderActions";
+import {
+  set_snackbar_message,
+  set_snackbar_serverity,
+  set_snackbar_status,
+} from "../snackbar/snackbarActions";
+import { logout } from "../login/loginActions";
 
-export function get_all_comment(login) {
+export function get_all_comment() {
   return (dispatch) => {
-    //   dispatch(setLoader())
-    return fetch(UNIVERSAL.BASEURL + " get_all_comment", {
+    // dispatch(setLoader());
+
+    return fetch(UNIVERSAL.BASEURL + "/api/comments", {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        token: login.token,
+        token: localStorage.getItem("mycreativeside_token"),
       },
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson.status) {
-          dispatch(set_all_comment(responseJson.result));
+        if (responseJson.status === "success") {
+          dispatch(set_all_comment(responseJson.comments));
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
           } else {
-            // dispatch(responseJson.status, responseJson.message) ;
+            // dispatch(set_snack_bar(responseJson.status, responseJson.message))
           }
         }
         // dispatch(unsetLoader()) ;
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 }
@@ -42,6 +52,13 @@ export function get_all_comment(login) {
 export function add_comment(id, comment, login) {
   return (dispatch) => {
     dispatch(set_comment_loader());
+    if (!login._id) {
+      dispatch(set_snackbar_message("You must login to comment"));
+      dispatch(set_snackbar_status(true));
+      dispatch(set_snackbar_serverity("info"));
+      dispatch(unset_comment_loader());
+      return;
+    }
     return fetch(UNIVERSAL.BASEURL + "/api/comments", {
       method: "POST",
       headers: {
@@ -58,9 +75,10 @@ export function add_comment(id, comment, login) {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson.status) {
+        if (responseJson.status === "success") {
           dispatch(reset_comment());
           dispatch(get_post_by_id(id));
+          dispatch(set_comment_loader());
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout())
@@ -107,18 +125,20 @@ export function update_comment(id, comment, login) {
 export function delete_comment(id, login) {
   return (dispatch) => {
     //   dispatch(setLoader()) ;
-    return fetch(UNIVERSAL.BASEURL + "delete_comment", {
+    return fetch(UNIVERSAL.BASEURL + "/api/comments", {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         token: login.token,
-        comment_id: id,
       },
+      body: JSON.stringify({
+        id: id,
+      }),
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        if (responseJson.result) {
+        if (responseJson.status === "success") {
           dispatch(get_all_comment);
         } else {
           if (responseJson.message === "User does not exist") {

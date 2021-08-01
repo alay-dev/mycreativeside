@@ -6,8 +6,11 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
+  Dialog,
+  DialogContent,
 } from "@material-ui/core";
-import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import WhatsAppIcon from "@material-ui/icons/WhatsApp";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import { withStyles } from "@material-ui/core/styles";
@@ -18,6 +21,7 @@ import moment from "moment";
 import "../css/post.css";
 import CommentLikeTab from "../components/CommentLikeTab";
 import SnackBar from "../components/Snackbar";
+import { IconButton } from "@material-ui/core";
 
 const styles = (theme) => ({
   root: {
@@ -52,6 +56,7 @@ class Post extends Component {
       tabIndex: 0,
       liked: false,
       btn__disable: false,
+      share_dialog: false,
       btn_notliked: {
         backgroundColor: "#05445e",
         color: "white",
@@ -70,6 +75,12 @@ class Post extends Component {
   componentWillUnmount() {
     this.props.set_snackbar_status(false);
   }
+
+  handleClose = () => {
+    this.setState({
+      share_dialog: false,
+    });
+  };
 
   render() {
     const { classes, post, login, comment, like_post, unlike_post, loader } =
@@ -142,6 +153,7 @@ class Post extends Component {
                     <Button
                       style={{ backgroundColor: "#05445e", color: "white" }}
                       startIcon={<ShareIcon />}
+                      onClick={() => this.setState({ share_dialog: true })}
                     >
                       {" "}
                       share
@@ -175,6 +187,33 @@ class Post extends Component {
             </div>
           </CardContent>
         </Card>
+        <Dialog
+          open={this.state.share_dialog}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent>
+            {/* <FacebookShareButton /> */}
+            <IconButton
+              onClick={() =>
+                window.open(
+                  `whatsapp://send?text=www.mycreativeside.vercel.app/${this.props.match.params.id}`
+                )
+              }
+            >
+              {" "}
+              <WhatsAppIcon />
+            </IconButton>
+            <IconButton>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=www.mycreativeside.vercel.app/${this.props.match.params.id}`}
+              >
+                <i className="fab fa-facebook-square" />
+              </a>
+            </IconButton>
+          </DialogContent>
+        </Dialog>
         <SnackBar {...this.props} />
       </div>
     );

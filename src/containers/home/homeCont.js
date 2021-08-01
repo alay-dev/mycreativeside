@@ -1,7 +1,7 @@
 import { Component } from "react";
 import Home from "../../pages/Home";
 import { set_snackbar_status } from "../../actions/snackbar/snackbarActions";
-import { get_all_posts } from "../../actions/posts/postActions";
+import { get_all_posts, paginate_post } from "../../actions/posts/postActions";
 import { connect } from "react-redux";
 
 class HomeCont extends Component {
@@ -26,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     set_snackbar_status: (payload) => {
       dispatch(set_snackbar_status(payload));
+    },
+    paginate_post: (posts, i) => {
+      dispatch(paginate_post(posts, i));
     },
   };
 };

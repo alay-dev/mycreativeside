@@ -60,7 +60,7 @@ export function get_all_users(login) {
   };
 }
 
-export function update_user(id, user, login) {
+export function update_user(id, user, afterLogin, login) {
   return (dispatch) => {
     dispatch(set_update_profile_loader());
     if (user.img !== "") {
@@ -77,19 +77,20 @@ export function update_user(id, user, login) {
         function () {
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log(downloadURL);
-            dispatch(update_user_api(id, user, login, downloadURL));
+            dispatch(update_user_api(id, user, afterLogin, login, downloadURL));
           });
         }
       );
     } else {
-      dispatch(update_user_api(id, user, login, user.old_img));
+      dispatch(update_user_api(id, user, afterLogin, login, user.old_img));
     }
   };
 }
 
-export function update_user_api(id, user, login, url) {
+export function update_user_api(id, user, afterLogin, login, url) {
   return (dispatch) => {
     // dispatch(setLoader());
+    console.log(afterLogin);
     return fetch(UNIVERSAL.BASEURL + "/api/users", {
       method: "PATCH",
       headers: {
@@ -108,14 +109,16 @@ export function update_user_api(id, user, login, url) {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status === "success") {
-          localStorage.setItem(
-            "mycreativeside_login",
-            JSON.stringify(responseJson.data)
-          );
-          dispatch({
-            type: LOGIN,
-            payload: responseJson.data,
-          });
+          if (afterLogin) {
+            localStorage.setItem(
+              "mycreativeside_login",
+              JSON.stringify(responseJson.data)
+            );
+            dispatch({
+              type: LOGIN,
+              payload: responseJson.data,
+            });
+          }
           dispatch(set_snackbar_message("update Successful"));
           dispatch(set_snackbar_status(true));
           dispatch(set_snackbar_serverity("success"));

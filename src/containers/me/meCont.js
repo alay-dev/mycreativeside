@@ -57,8 +57,8 @@ const mapDispatchToProps = (dispatch) => {
     set_user_confirm_password: (password) => {
       dispatch(set_user_confirm_password(password));
     },
-    update_user: (id, user, login) => {
-      dispatch(update_user(id, user, login));
+    update_user: (id, user, afterLogin, login) => {
+      dispatch(update_user(id, user, afterLogin, login));
     },
     update_password: (id, user, login) => {
       dispatch(update_password(id, user, login));

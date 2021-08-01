@@ -9,6 +9,8 @@ import {
   SET_POST_AUTHOR_IMG,
   SET_POST_AUTHOR_NAME,
   SET_POST_AUTHOR_ID,
+  SET_PAGINATED_POST,
+  SET_POSTS_LENGTH,
   RESET_POST,
 } from "../../constants/posts/postsConst";
 import {
@@ -44,6 +46,12 @@ export function get_all_posts(login) {
       .then((responseJson) => {
         if (responseJson.status === "success") {
           dispatch(set_all_posts(responseJson.posts));
+          var tmp = [...responseJson.posts];
+          dispatch(paginate_post(tmp, 1));
+          dispatch({
+            type: SET_POSTS_LENGTH,
+            payload: responseJson.posts.length,
+          });
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;
@@ -386,6 +394,24 @@ export function unlike_post(id, login) {
       .catch((error) => {
         console.log(error);
       });
+  };
+}
+
+export function paginate_post(posts, i) {
+  // console.log("hello pagination", posts.splice(0, 12));
+  // console.log("hello pagination", posts);
+  var tmp = [...posts];
+  if (i === 1) {
+    tmp = tmp.splice(0, 12);
+  } else {
+    tmp = tmp.splice(12 * (i - 1), 12 * (i + 1));
+  }
+
+  console.log("hh", tmp);
+
+  return {
+    type: SET_PAGINATED_POST,
+    payload: tmp,
   };
 }
 

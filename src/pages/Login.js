@@ -45,7 +45,7 @@ class Login extends Component {
         <Card className="login__card">
           <CardContent>
             <h4>Login</h4>
-            <div className="social_login_cont">
+            {/* <div className="social_login_cont">
               <Button
                 style={{ backgroundColor: "#db3236", width: "14rem" }}
                 onClick={googleLogin}
@@ -63,7 +63,7 @@ class Login extends Component {
               >
                 Login With Facebook
               </Button>
-            </div>
+            </div> */}
             <Divider />
             <br />
             <form

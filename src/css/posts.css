@@ -158,7 +158,7 @@
   color: grey;
 }
 
-.posts__right .pagination {
+.pagination {
   grid-column: 1 /-1;
   background-color: #d4f1f4;
   padding: 0.4rem 0.5rem;

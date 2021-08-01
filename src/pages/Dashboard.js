@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   TextField,
   Card,
@@ -36,6 +34,7 @@ import React from "react";
 import "../css/dashboard.css";
 import { Component } from "react";
 import history from "../history";
+import moment from "moment";
 
 function createData(name, email, title, file, action) {
   return { name, email, title, file };
@@ -106,8 +105,9 @@ class Dashboard extends Component {
     if (this.props.login.type !== "A") {
       history.push("/");
     }
-    this.props.get_all_posts();
-    this.props.get_all_users();
+    this.props.get_all_posts(this.props.login);
+    this.props.get_all_users(this.props.login);
+    this.props.get_all_comment(this.props.login);
   }
 
   handleChange = (event, newValue) => {
@@ -130,6 +130,7 @@ class Dashboard extends Component {
       login,
       post,
       user,
+      comment,
       add_post,
       set_post_img,
       set_post_caption,
@@ -148,6 +149,7 @@ class Dashboard extends Component {
       set_user_name,
       set_user_old_img,
       update_user,
+      delete_comment,
     } = this.props;
     return (
       <div className="dashboard">
@@ -252,7 +254,133 @@ class Dashboard extends Component {
           </Card>
         </TabPanel>
         <TabPanel value={this.state.value} index={1}>
-          Item Two
+          <Card>
+            <CardContent>
+              <h3>All Comments</h3>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">No.</TableCell>
+                      <TableCell align="center">Profile Pic</TableCell>
+                      <TableCell align="center">Email</TableCell>
+                      <TableCell align="center">comment</TableCell>
+                      <TableCell align="center">Date</TableCell>
+                      <TableCell align="center">Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {comment.all_comment.map((row, i) => (
+                      <TableRow key={i}>
+                        <TableCell align="center">{i + 1}</TableCell>
+                        <TableCell align="center">
+                          <Avatar
+                            alt={row.user ? row.user.name : "unknown"}
+                            src={row.user ? row.user.name : ""}
+                          />
+                        </TableCell>
+                        <TableCell align="center" component="th" scope="row">
+                          {row.user ? row.user.email : ""}
+                        </TableCell>
+                        <TableCell align="center">{row.comment}</TableCell>
+                        <TableCell align="center">
+                          {moment(row.date).format("LL")}
+                        </TableCell>
+                        <TableCell align="center">
+                          <Tooltip title="Delete">
+                            <IconButton
+                              size="small"
+                              aria-label="delete"
+                              onClick={() => {
+                                delete_comment(row._id, login);
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+        </TabPanel>
+        <TabPanel value={this.state.value} index={2}>
+          <Card>
+            <CardContent>
+              <h3>All Admins</h3>
+              <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">No.</TableCell>
+                      <TableCell align="center">Profile Pic</TableCell>
+                      <TableCell align="center">Email</TableCell>
+                      <TableCell align="center">contact no.</TableCell>
+                      <TableCell align="center">Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {user.all_users.map((row, i) => {
+                      if (row.type !== "A") {
+                        return;
+                      } else {
+                        return (
+                          <TableRow key={i}>
+                            <TableCell align="center">{i + 1}</TableCell>
+                            <TableCell align="center">
+                              <Avatar alt={row.name} src={row.url} />
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              component="th"
+                              scope="row"
+                            >
+                              {row.email}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.contact_no}
+                            </TableCell>
+                            <TableCell align="center">
+                              <Tooltip title="Delete">
+                                <IconButton
+                                  aria-label="delete"
+                                  onClick={() => {
+                                    delete_user(row._id, login);
+                                  }}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Edit">
+                                <IconButton
+                                  aria-label="edit"
+                                  onClick={() => {
+                                    set_user_email(row.email);
+                                    set_user_name(row.name);
+                                    set_user_contact_num(row.contact_no);
+                                    set_user_old_img(row.url);
+                                    this.setState({
+                                      edit_user: true,
+                                      id: row._id,
+                                    });
+                                  }}
+                                >
+                                  <EditIcon />
+                                </IconButton>
+                              </Tooltip>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
         </TabPanel>
         <TabPanel value={this.state.value} index={3}>
           <Card>
@@ -270,44 +398,59 @@ class Dashboard extends Component {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {user.all_users.map((row, i) => (
-                      <TableRow key={i}>
-                        <TableCell align="center">{i + 1}</TableCell>
-                        <TableCell align="center">
-                          <Avatar alt={row.name} src={row.url} />
-                        </TableCell>
-                        <TableCell align="center" component="th" scope="row">
-                          {row.email}
-                        </TableCell>
-                        <TableCell align="center">{row.contact_no}</TableCell>
-                        <TableCell align="center">
-                          <Tooltip title="Delete">
-                            <IconButton
-                              aria-label="delete"
-                              onClick={() => {
-                                delete_user(row._id, login);
-                              }}
+                    {user.all_users.map((row, i) => {
+                      if (row.type === "A") {
+                        return;
+                      } else {
+                        return (
+                          <TableRow key={i}>
+                            <TableCell align="center">{i + 1}</TableCell>
+                            <TableCell align="center">
+                              <Avatar alt={row.name} src={row.url} />
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              component="th"
+                              scope="row"
                             >
-                              <DeleteIcon />
-                            </IconButton>
-                          </Tooltip>
-                          <Tooltip title="Edit">
-                            <IconButton
-                              aria-label="edit"
-                              onClick={() => {
-                                set_user_email(row.email);
-                                set_user_name(row.name);
-                                set_user_contact_num(row.contact_no);
-                                set_user_old_img(row.url);
-                                this.setState({ edit_user: true, id: row._id });
-                              }}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                          </Tooltip>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                              {row.email}
+                            </TableCell>
+                            <TableCell align="center">
+                              {row.contact_no}
+                            </TableCell>
+                            <TableCell align="center">
+                              <Tooltip title="Delete">
+                                <IconButton
+                                  aria-label="delete"
+                                  onClick={() => {
+                                    delete_user(row._id, login);
+                                  }}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title="Edit">
+                                <IconButton
+                                  aria-label="edit"
+                                  onClick={() => {
+                                    set_user_email(row.email);
+                                    set_user_name(row.name);
+                                    set_user_contact_num(row.contact_no);
+                                    set_user_old_img(row.url);
+                                    this.setState({
+                                      edit_user: true,
+                                      id: row._id,
+                                    });
+                                  }}
+                                >
+                                  <EditIcon />
+                                </IconButton>
+                              </Tooltip>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                    })}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -506,7 +649,7 @@ class Dashboard extends Component {
             <TextField
               autoFocus
               margin="dense"
-              label="Email"
+              label="Contact no."
               type="text"
               fullWidth
               inputProps={{ maxLength: 10 }}
@@ -531,7 +674,7 @@ class Dashboard extends Component {
               color="primary"
               onClick={() => {
                 console.log("component2", post);
-                update_user(this.state.id, user, login);
+                update_user(this.state.id, user, false, login);
                 this.handleClose();
               }}
             >

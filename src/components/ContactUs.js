@@ -9,7 +9,7 @@ const ContactUs = () => {
     <div className="contactus">
       <img src={contactUs} alt="contact us" />
       <div className="form">
-        <p>Reach us</p>
+        <p>Share your thoughts</p>
         <TextField
           fullWidth
           type="text"

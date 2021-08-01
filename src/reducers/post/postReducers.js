@@ -9,6 +9,8 @@ import {
   SET_POST_AUTHOR_IMG,
   SET_POST_AUTHOR_EMAIL,
   SET_POST_AUTHOR_ID,
+  SET_PAGINATED_POST,
+  SET_POSTS_LENGTH,
   RESET_POST,
 } from "../../constants/posts/postsConst";
 
@@ -31,6 +33,8 @@ const initial_state = {
   author_email: "",
   author_img: "",
   author_id: "",
+  paginated_post: [],
+  posts_length: 0,
 };
 
 export default function reducer(state = initial_state, action) {
@@ -55,6 +59,10 @@ export default function reducer(state = initial_state, action) {
       return (state = { ...state, author_name: action.payload });
     case SET_POST_AUTHOR_IMG:
       return (state = { ...state, author_img: action.payload });
+    case SET_PAGINATED_POST:
+      return (state = { ...state, paginated_post: action.payload });
+    case SET_POSTS_LENGTH:
+      return (state = { ...state, posts_length: action.payload });
     case RESET_POST:
       return (state = {
         ...state,

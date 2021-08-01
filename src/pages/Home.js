@@ -9,12 +9,12 @@ import LoaderCont from "../containers/loader/loaderCont";
 class Home extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      paginatedPosts: [],
+    };
   }
-  componentDidMount() {
-    this.props.get_all_posts();
-  }
+
   render() {
-    const { login } = this.props;
     return (
       <div className="home">
         <Hero />

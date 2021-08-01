@@ -385,7 +385,7 @@ class me extends Component {
                     color="primary"
                     variant="contained"
                     onClick={() => {
-                      update_user(login._id, user, login);
+                      update_user(login._id, user, true, login);
                     }}
                     style={{
                       height: "2.5rem",

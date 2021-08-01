@@ -1,6 +1,9 @@
 import { Component } from "react";
 import Dashboard from "../../pages/Dashboard";
-// import {} from "../../actions/login/loginActions";
+import {
+  get_all_comment,
+  delete_comment,
+} from "../../actions/comment/commentAction";
 import {
   get_all_users,
   delete_user,
@@ -38,6 +41,7 @@ const mapStateToProps = (store) => {
     login: store.login,
     post: store.post,
     user: store.user,
+    comment: store.comment,
   };
 };
 
@@ -66,6 +70,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     get_all_users: (login) => {
       dispatch(get_all_users(login));
+    },
+    get_all_comment: (login) => {
+      dispatch(get_all_comment(login));
     },
     delete_user: (id, login) => {
       dispatch(delete_user(id, login));
@@ -100,8 +107,11 @@ const mapDispatchToProps = (dispatch) => {
     set_user_old_img: (old_img) => {
       dispatch(set_user_old_img(old_img));
     },
-    update_user: (id, user, login) => {
-      dispatch(update_user(id, user, login));
+    update_user: (id, user, afterLogin, login) => {
+      dispatch(update_user(id, user, afterLogin, login));
+    },
+    delete_comment: (id, login) => {
+      dispatch(delete_comment(id, login));
     },
   };
 };
