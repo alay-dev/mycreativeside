@@ -17,6 +17,10 @@
     width: 18rem !important;
     height: 22rem !important;
   }
+
+  .featured {
+    margin-bottom: 3rem;
+  }
 }
 
 .featured img {

@@ -139,7 +139,7 @@ export function delete_comment(id, login) {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status === "success") {
-          dispatch(get_all_comment);
+          dispatch(get_all_comment());
         } else {
           if (responseJson.message === "User does not exist") {
             // dispatch(onLogout()) ;

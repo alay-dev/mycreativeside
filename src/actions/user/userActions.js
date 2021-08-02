@@ -221,7 +221,7 @@ export function delete_user(id, login) {
   };
 }
 
-export function delete_self(id, login) {
+export function delete_self(id) {
   return (dispatch) => {
     dispatch(set_delete_loader());
     return fetch(UNIVERSAL.BASEURL + "/api/users/delete_self", {
@@ -238,11 +238,12 @@ export function delete_self(id, login) {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status === "success") {
-          dispatch(set_snackbar_message("Accoutn Deleted"));
+          dispatch(unset_delete_loader());
+          dispatch(logout());
+          history.push("/");
+          dispatch(set_snackbar_message("Account deleted"));
           dispatch(set_snackbar_status(true));
           dispatch(set_snackbar_serverity("success"));
-          dispatch(unset_delete_loader());
-          history.push("/");
           dispatch(reset_user());
         } else {
           if (responseJson.message === "User does not exist") {
@@ -255,6 +256,33 @@ export function delete_self(id, login) {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+}
+
+export function contact_us(name, email, message) {
+  return (dispatch) => {
+    return fetch(
+      "https://hooks.slack.com/services/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",
+      {
+        method: "POST",
+        headers: {
+          // Accept: "application/json",
+          // "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: `
+          Name: ${name} \n Email: ${email} \nMessage: ${message}
+          `,
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+      })
+      .catch((error) => {
+        console.error(error);
       });
   };
 }

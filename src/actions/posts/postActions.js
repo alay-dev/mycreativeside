@@ -45,6 +45,10 @@ export function get_all_posts(login) {
       .then((response) => response.json())
       .then((responseJson) => {
         if (responseJson.status === "success") {
+          responseJson.posts.sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          );
+
           dispatch(set_all_posts(responseJson.posts));
           var tmp = [...responseJson.posts];
           dispatch(paginate_post(tmp, 1));
@@ -154,6 +158,7 @@ export function add_post_api(post, login, url) {
           dispatch(set_snackbar_status(true));
           dispatch(set_snackbar_serverity("success"));
           dispatch(unset_post_loader());
+          dispatch(reset_post());
         } else {
           if (responseJson.message === "User does not exist") {
             dispatch(unset_post_loader());

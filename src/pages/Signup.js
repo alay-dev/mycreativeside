@@ -129,9 +129,6 @@ class Signup extends Component {
                 <Button
                   type="submit"
                   variant="contained"
-                  onClick={() => {
-                    signup(user);
-                  }}
                   style={{
                     width: "5rem",
                     height: "2rem",

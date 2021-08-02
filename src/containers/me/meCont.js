@@ -10,7 +10,7 @@ import {
   set_user_confirm_password,
   set_user_password,
   set_user_current_password,
-  delete_user,
+  delete_self,
   update_user,
   update_password,
 } from "../../actions/user/userActions";
@@ -66,8 +66,8 @@ const mapDispatchToProps = (dispatch) => {
     set_snackbar_status: (status) => {
       dispatch(set_snackbar_status(status));
     },
-    delete_user: (id) => {
-      dispatch(delete_user(id));
+    delete_self: (id) => {
+      dispatch(delete_self(id));
     },
   };
 };

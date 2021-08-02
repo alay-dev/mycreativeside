@@ -16,6 +16,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { animateScroll as scroll } from "react-scroll";
 import moment from "moment";
 
 import "../css/post.css";
@@ -68,8 +69,13 @@ class Post extends Component {
     };
   }
 
+  scrollToTop = () => {
+    scroll.scrollToTop();
+  };
+
   componentDidMount() {
     this.props.get_post_by_id(this.props.match.params.id);
+    this.scrollToTop();
     // this.props.set_current_post(this.props.match.params.id);
   }
   componentWillUnmount() {

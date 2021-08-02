@@ -17,6 +17,7 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import { Component } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { Link as tmpLink, scroller } from "react-scroll";
 class Posts extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +28,7 @@ class Posts extends Component {
     };
   }
   handleChange = (event, value) => {
+    this.scrllTo();
     this.setState({ page: value });
     console.log(value);
 
@@ -43,6 +45,14 @@ class Posts extends Component {
   componentWillUnmount() {
     this.props.set_snackbar_status(false);
   }
+
+  scrllTo = () => {
+    scroller.scrollTo("latest_heading", {
+      duration: 300,
+      delay: 0,
+      offset: -80,
+    });
+  };
 
   render() {
     const { post, loader, snackbar, set_paginated_post } = this.props;
@@ -62,8 +72,8 @@ class Posts extends Component {
     //   );
     // }
     return (
-      <div className="posts">
-        <div className="posts__left">
+      <div id="posts__" className="posts">
+        {/* <div className="posts__left">
           <TextField
             id="outlined-search"
             fullWidth
@@ -113,7 +123,7 @@ class Posts extends Component {
               }}
             />
           </div>
-        </div>
+        </div> */}
         {loader.all_posts_loader ? (
           <div
             style={{
@@ -171,7 +181,7 @@ class Posts extends Component {
                         />
                         <span>{row.likes ? row.likes.length : ""}</span>
                       </div>
-                      <div className="view">
+                      {/* <div className="view">
                         <VisibilityIcon
                           style={{
                             color: "#05445e",
@@ -180,7 +190,7 @@ class Posts extends Component {
                           }}
                         />
                         <span>{row.views ? row.views.length : ""}</span>
-                      </div>
+                      </div> */}
                       <div className="comment">
                         <ChatBubbleIcon
                           style={{
@@ -197,6 +207,14 @@ class Posts extends Component {
               })}
             </div>
             {post.posts_length >= 12 ? (
+              // <tmpLink
+              //   activeClass="active"
+              //   smooth={true}
+              //   to="latest_heading"
+              //   duration={200}
+              //   spy={true}
+              //   offset={-10}
+              // >
               <div className="pagination">
                 <Pagination
                   color="primary"

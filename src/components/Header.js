@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../img/logo.png";
+import logo from "../img/logo2.png";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -17,6 +17,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { green, blueGrey } from "@material-ui/core/colors";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
+import { animateScroll as scroll } from "react-scroll";
 // import TagInput from "./TagInput";
 
 import "../css/header.css";
@@ -52,6 +53,10 @@ class Header extends Component {
     }
   }
 
+  scrollToTop = () => {
+    scroll.scrollToTop();
+  };
+
   handleOpen = () => {
     this.setState({ open: true });
   };
@@ -77,6 +82,7 @@ class Header extends Component {
           to="/"
           onClick={() => {
             this.setState({ open: false, menu: false });
+            this.scrollToTop();
           }}
         >
           <img src={logo} alt="logo" />
@@ -115,22 +121,44 @@ class Header extends Component {
           )}
           {localStorage.getItem("mycreativeside_token") ? (
             <React.Fragment>
-              <Link to="/me" style={{ textDecoration: "none" }}>
+              <Link
+                to="/me"
+                onClick={() => this.scrollToTop()}
+                style={{ textDecoration: "none" }}
+              >
                 <div className="login__avatar">
                   <Avatar alt={login.name} src={login.url} />
                   <span>{login.name ? login.name.split(" ")[0] : ""}</span>
                 </div>
               </Link>
-              <Link className="item" onClick={() => logout()}>
+              <Link
+                className="item"
+                onClick={() => {
+                  logout();
+                  this.scrollToTop();
+                }}
+              >
                 <ColorButton variant="outlined">Log out</ColorButton>
               </Link>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Link to="/login" className="item">
+              <Link
+                to="/login"
+                onClick={() => {
+                  this.scrollToTop();
+                }}
+                className="item"
+              >
                 Login
               </Link>
-              <Link to="/signup" style={{ textDecoration: "none" }}>
+              <Link
+                to="/signup"
+                onClick={() => {
+                  this.scrollToTop();
+                }}
+                style={{ textDecoration: "none" }}
+              >
                 <ColorButton color="primary" variant="contained">
                   Signup
                 </ColorButton>
@@ -158,22 +186,46 @@ class Header extends Component {
             )}
             {localStorage.getItem("mycreativeside_token") ? (
               <React.Fragment>
-                <Link to="/me" style={{ textDecoration: "none" }}>
+                <Link
+                  to="/me"
+                  onClick={() => {
+                    this.scrollToTop();
+                  }}
+                  style={{ textDecoration: "none" }}
+                >
                   <div className="login__avatar">
                     <Avatar alt={login.name} src={login.url} />
                     <span>{login.name ? login.name.split(" ")[0] : ""}</span>
                   </div>
                 </Link>
-                <Link className="item" onClick={() => logout()}>
+                <Link
+                  className="item"
+                  onClick={() => {
+                    logout();
+                    this.scrollToTop();
+                  }}
+                >
                   <ColorButton variant="outlined">Log out</ColorButton>
                 </Link>
               </React.Fragment>
             ) : (
               <React.Fragment>
-                <Link to="/login" className="item">
+                <Link
+                  to="/login"
+                  onClick={() => {
+                    this.scrollToTop();
+                  }}
+                  className="item"
+                >
                   Login
                 </Link>
-                <Link to="/signup" style={{ textDecoration: "none" }}>
+                <Link
+                  to="/signup"
+                  onClick={() => {
+                    this.scrollToTop();
+                  }}
+                  style={{ textDecoration: "none" }}
+                >
                   <ColorButton color="primary" variant="contained">
                     Signup
                   </ColorButton>

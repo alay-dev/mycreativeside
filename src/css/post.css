@@ -86,6 +86,9 @@
   .post__grid .left .avatar__cont {
     margin-top: 1rem;
   }
+  .post {
+    padding: 6rem 0 2rem 0;
+  }
 }
 
 @media only screen and (max-width: 400px) {

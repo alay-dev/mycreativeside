@@ -60,7 +60,7 @@ class me extends Component {
       set_user_img,
       set_user_name,
       update_user,
-      delete_user,
+      delete_self,
       update_password,
       loader,
       user,
@@ -509,7 +509,7 @@ class me extends Component {
                       color="primary"
                       variant="contained"
                       onClick={() => {
-                        delete_user(login._id);
+                        delete_self(login._id);
                       }}
                       style={{
                         height: "2.5rem",
