@@ -45,109 +45,84 @@ class Signup extends Component {
     return (
       <div className="signup">
         <img src={signupImg} alt="signup img" />
-        <Card className="signup__card">
-          <CardContent>
-            <h4>Signup</h4>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                signup(user);
-              }}
-            >
-              <TextField
-                fullWidth
-                label="Full Name"
-                type="text"
-                variant="outlined"
-                size="small"
-                onChange={(e) => {
-                  set_user_name(e.target.value);
-                }}
-              />
-              <br /> <br />
-              <TextField
-                fullWidth
-                label="Email"
-                type="email"
-                variant="outlined"
-                size="small"
-                onChange={(e) => {
-                  set_user_email(e.target.value);
-                }}
-              />
-              <InputLabel style={{ marginTop: "0.8rem" }}>
-                Profile pic
-              </InputLabel>
-              <Input
-                id="outlined-basic"
-                label="Choose post image "
-                variant="outlined"
-                type="file"
-                fullWidth
-                onChange={(e) => {
-                  set_user_img(e.target.files[0]);
-                }}
-              />
-              <br /> <br />
-              <TextField
-                fullWidth
-                label="Contact No."
-                inputProps={{ maxLength: 10 }}
-                type="text"
-                variant="outlined"
-                size="small"
-                onChange={(e) => {
-                  set_user_contact_num(e.target.value);
-                }}
-              />
-              <br />
-              <br />
-              <TextField
-                fullWidth
-                label="Password"
-                type="password"
-                variant="outlined"
-                size="small"
-                onChange={(e) => {
-                  set_user_password(e.target.value);
-                }}
-              />
-              <br />
-              <br />
-              <TextField
-                fullWidth
-                label="Confirm Password"
-                type="password"
-                variant="outlined"
-                size="small"
-                onChange={(e) => {
-                  set_user_confirm_password(e.target.value);
-                }}
-              />
-              <br /> <br />
-              <div className="btn__cont">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  style={{
-                    width: "5rem",
-                    height: "2rem",
-                    backgroundColor: "#05445e",
-                    color: "white",
-                  }}
-                >
-                  {loader.login_loader ? (
-                    <CircularProgress size={20} />
-                  ) : (
-                    "Signup"
-                  )}
-                </Button>
+        <div className="login-wrap">
+          <div className="login-html">
+            <input
+              id="tab-1"
+              type="radio"
+              name="tab"
+              className="sign-in"
+              checked
+            />
+
+            <input id="tab-2" type="radio" name="tab" className="sign-up" />
+            <label style={{ color: "#fff" }} htmlFor="tab-2" className="tab">
+              Sign Up
+            </label>
+            <div className="login-form">
+              <div className="sign-up-htm">
+                <div className="group">
+                  <label htmlFor="user" className="label">
+                    Full Name
+                  </label>
+                  <input
+                    id="user"
+                    type="text"
+                    className="input"
+                    onChange={(e) => set_user_name(e.target.value)}
+                  />
+                </div>
+                <div className="group">
+                  <label htmlFor="pass" className="label">
+                    Email Address
+                  </label>
+                  <input
+                    id="pass"
+                    type="text"
+                    className="input"
+                    onChange={(e) => set_user_email(e.target.value)}
+                  />
+                </div>
+                <div className="group">
+                  <label htmlFor="pass" className="label">
+                    Password
+                  </label>
+                  <input
+                    id="pass"
+                    type="password"
+                    className="input"
+                    data-type="password"
+                    onChange={(e) => set_user_password(e.target.value)}
+                  />
+                </div>
+                <div className="group">
+                  <label htmlFor="pass" className="label">
+                    Repeat Password
+                  </label>
+                  <input
+                    id="pass"
+                    type="password"
+                    className="input"
+                    data-type="password"
+                    onChange={(e) => set_user_confirm_password(e.target.value)}
+                  />
+                </div>
+
+                <div className="group">
+                  <input
+                    type="submit"
+                    className="button"
+                    value="Sign Up"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      signup(user);
+                    }}
+                  />
+                </div>
               </div>
-            </form>
-            <br />
-            <Link to="/login">Already have an account? Login</Link>
-          </CardContent>
-        </Card>
+            </div>
+          </div>
+        </div>
         <SnackBar {...this.props} />
       </div>
     );
@@ -155,3 +130,143 @@ class Signup extends Component {
 }
 
 export default Signup;
+
+// class Signup extends Component {
+//   constructor(props) {
+//     super(props);
+//   }
+//   componentDidMount() {
+//     if (localStorage.getItem("mycreativeside_token")) {
+//       history.push("/");
+//     }
+//   }
+
+//   componentWillUnmount() {
+//     this.props.set_snackbar_status(false);
+//   }
+
+//   render() {
+//     const {
+//       user,
+//       signup,
+//       set_user_confirm_password,
+//       set_user_contact_num,
+//       set_user_email,
+//       set_user_img,
+//       set_user_name,
+//       set_user_password,
+//       loader,
+//     } = this.props;
+//     return (
+//       <div className="signup">
+//         <img src={signupImg} alt="signup img" />
+//         <Card className="signup__card">
+//           <CardContent>
+//             <h4>Signup</h4>
+//             <form
+//               onSubmit={(e) => {
+//                 e.preventDefault();
+//                 signup(user);
+//               }}
+//             >
+//               <TextField
+//                 fullWidth
+//                 label="Full Name"
+//                 type="text"
+//                 variant="outlined"
+//                 size="small"
+//                 onChange={(e) => {
+//                   set_user_name(e.target.value);
+//                 }}
+//               />
+//               <br /> <br />
+//               <TextField
+//                 fullWidth
+//                 label="Email"
+//                 type="email"
+//                 variant="outlined"
+//                 size="small"
+//                 onChange={(e) => {
+//                   set_user_email(e.target.value);
+//                 }}
+//               />
+//               <InputLabel style={{ marginTop: "0.8rem" }}>
+//                 Profile pic
+//               </InputLabel>
+//               <Input
+//                 id="outlined-basic"
+//                 label="Choose post image "
+//                 variant="outlined"
+//                 type="file"
+//                 fullWidth
+//                 onChange={(e) => {
+//                   set_user_img(e.target.files[0]);
+//                 }}
+//               />
+//               <br /> <br />
+//               <TextField
+//                 fullWidth
+//                 label="Contact No."
+//                 inputProps={{ maxLength: 10 }}
+//                 type="text"
+//                 variant="outlined"
+//                 size="small"
+//                 onChange={(e) => {
+//                   set_user_contact_num(e.target.value);
+//                 }}
+//               />
+//               <br />
+//               <br />
+//               <TextField
+//                 fullWidth
+//                 label="Password"
+//                 type="password"
+//                 variant="outlined"
+//                 size="small"
+//                 onChange={(e) => {
+//                   set_user_password(e.target.value);
+//                 }}
+//               />
+//               <br />
+//               <br />
+//               <TextField
+//                 fullWidth
+//                 label="Confirm Password"
+//                 type="password"
+//                 variant="outlined"
+//                 size="small"
+//                 onChange={(e) => {
+//                   set_user_confirm_password(e.target.value);
+//                 }}
+//               />
+//               <br /> <br />
+//               <div className="btn__cont">
+//                 <Button
+//                   type="submit"
+//                   variant="contained"
+//                   style={{
+//                     width: "5rem",
+//                     height: "2rem",
+//                     backgroundColor: "#05445e",
+//                     color: "white",
+//                   }}
+//                 >
+//                   {loader.login_loader ? (
+//                     <CircularProgress size={20} />
+//                   ) : (
+//                     "Signup"
+//                   )}
+//                 </Button>
+//               </div>
+//             </form>
+//             <br />
+//             <Link to="/login">Already have an account? Login</Link>
+//           </CardContent>
+//         </Card>
+//         <SnackBar {...this.props} />
+//       </div>
+//     );
+//   }
+// }
+
+// export default Signup;

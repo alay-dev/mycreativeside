@@ -40,6 +40,14 @@
   position: relative;
 }
 
+.header .login__avatar {
+  display: flex !important;
+  width: max-content !important;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .header .main .item:not(:last-child):hover {
   background-color: rgba(0, 0, 0, 0.2);
 }

@@ -91,12 +91,19 @@ export function signup_api(user, url) {
         if (responseJson.status === "success") {
           dispatch(set_login(responseJson.data));
           dispatch(reset_user());
+          dispatch(set_snackbar_message("Signup successfull"));
+          dispatch(set_snackbar_status(true));
+          dispatch(set_snackbar_serverity("success"));
+          dispatch(unset_login_loader());
           history.push("/");
         } else {
-          if (responseJson.message === "User does not exist") {
-            dispatch(set_snackbar_message("Signup successfull"));
+          if (
+            responseJson.message ===
+            "Duplicate field value: undefined please use another value"
+          ) {
+            dispatch(set_snackbar_message("User already exists"));
             dispatch(set_snackbar_status(true));
-            dispatch(set_snackbar_serverity("success"));
+            dispatch(set_snackbar_serverity("error"));
             dispatch(unset_login_loader());
           } else {
             dispatch(set_snackbar_message("Something went wrong! try again"));

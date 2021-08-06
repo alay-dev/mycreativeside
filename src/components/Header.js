@@ -127,7 +127,14 @@ class Header extends Component {
                 style={{ textDecoration: "none" }}
               >
                 <div className="login__avatar">
-                  <Avatar alt={login.name} src={login.url} />
+                  <Avatar
+                    alt={login.name}
+                    src={login.url}
+                    style={{
+                      width: "2.2rem",
+                      height: "2.2rem",
+                    }}
+                  />
                   <span>{login.name ? login.name.split(" ")[0] : ""}</span>
                 </div>
               </Link>
@@ -194,7 +201,11 @@ class Header extends Component {
                   style={{ textDecoration: "none" }}
                 >
                   <div className="login__avatar">
-                    <Avatar alt={login.name} src={login.url} />
+                    <Avatar
+                      alt={login.name}
+                      src={login.url}
+                      style={{ width: "2.2rem", height: "2.2rem" }}
+                    />
                     <span>{login.name ? login.name.split(" ")[0] : ""}</span>
                   </div>
                 </Link>
