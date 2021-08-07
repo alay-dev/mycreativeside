@@ -85,7 +85,7 @@ class Header extends Component {
             this.scrollToTop();
           }}
         >
-          <img src={logo} alt="logo" />
+          <img className="header__logo" src={logo} alt="logo" />
         </Link>
         {this.state.menu ? (
           <CloseIcon

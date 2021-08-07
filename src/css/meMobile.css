@@ -1,0 +1,123 @@
+.meMobile {
+  margin-top: 7rem;
+}
+
+.meMobile {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+
+  min-height: 80vh;
+  width: 100%;
+}
+
+.tab__heading {
+  text-align: center;
+  width: 100%;
+  margin-left: -1rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.meMobile .account__detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+.meMobile p {
+  margin: 0;
+}
+
+.meMobile .edit__profile--btn {
+  margin-top: 1rem;
+  color: #fff;
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  border: 2px solid #fff;
+  background: transparent;
+  text-transform: uppercase;
+}
+
+.meMobile .options {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.meMobile .options ul {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.meMobile .options ul li {
+  width: 90%;
+  background-color: #fff;
+  height: 3rem;
+  border-radius: 0.5rem;
+  padding: 0.2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 1px 1px 13px 0px rgba(0, 0, 0, 0.32);
+}
+
+.cont {
+  padding: 1rem 1rem;
+  margin-top: 3.6rem;
+}
+
+.cont h5 {
+  font-size: 1.1rem;
+  text-align: center;
+  color: #444;
+}
+
+/* ORDERS  */
+
+.order__cont {
+  border: 2px solid #eee;
+  padding: 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.order__cont .shop__info {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.7rem;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 1rem;
+}
+
+.order__cont .shop__info img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.6rem;
+  object-fit: cover;
+  object-position: center;
+}
+
+.order__cont .shop__info p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.order__cont p {
+  color: grey;
+  font-size: 0.9rem;
+  margin-bottom: 0rem;
+}

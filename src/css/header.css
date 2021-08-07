@@ -90,6 +90,10 @@
   .menu__icon {
     display: flex !important ;
   }
+
+  .header .header__logo {
+    height: 2rem;
+  }
 }
 
 @keyframes moveDown {
@@ -100,12 +104,6 @@
   100% {
     opacity: 1;
     top: 100%;
-  }
-}
-
-@media only screen and (max-width: 350px) {
-  .header img {
-    height: 2.2rem !important;
   }
 }
 

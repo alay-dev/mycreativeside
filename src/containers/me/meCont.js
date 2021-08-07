@@ -1,5 +1,6 @@
 import { Component } from "react";
 import Me from "../../pages/Me";
+import MeMobile from "../../pages/MeMobile";
 import { connect } from "react-redux";
 import {
   set_user_contact_num,
@@ -17,8 +18,18 @@ import {
 import { set_snackbar_status } from "../../actions/snackbar/snackbarActions";
 
 class MeCont extends Component {
+  componentDidMount() {
+    this.props.set_user_name(this.props.login.name);
+    this.props.set_user_email(this.props.login.email);
+    this.props.set_user_contact_num(this.props.login.contact_no);
+    this.props.set_user_old_img(this.props.login.url);
+  }
   render() {
-    return <Me {...this.props} />;
+    if (window.innerWidth <= 500) {
+      return <MeMobile {...this.props} />;
+    } else {
+      return <Me {...this.props} />;
+    }
   }
 }
 

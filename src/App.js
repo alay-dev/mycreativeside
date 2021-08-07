@@ -14,12 +14,14 @@ import { Component } from "react";
 import firebase from "firebase";
 import firebaseConfig from "./config/firebaseConfig";
 import MeCont from "./containers/me/meCont";
+import Aos from "aos";
 class App extends Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
     firebase.initializeApp(firebaseConfig);
+    Aos.init();
   }
   render() {
     return (

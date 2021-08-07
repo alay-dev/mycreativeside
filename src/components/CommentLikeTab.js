@@ -6,6 +6,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
+import SendIcon from "@material-ui/icons/Send";
 import {
   Box,
   List,
@@ -16,6 +17,8 @@ import {
   ListItemText,
   TextField,
   CircularProgress,
+  InputAdornment,
+  IconButton,
 } from "@material-ui/core";
 import { Component } from "react";
 
@@ -163,6 +166,19 @@ class CommentLikeTab extends Component {
                 set_comment(e.target.value);
               }}
               value={comment.comment}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => {
+                        add_comment(post.current_post._id, comment, login);
+                      }}
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </form>
         </this.TabPanel>

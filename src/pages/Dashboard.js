@@ -276,7 +276,7 @@ class Dashboard extends Component {
                         <TableCell align="center">
                           <Avatar
                             alt={row.user ? row.user.name : "unknown"}
-                            src={row.user ? row.user.name : ""}
+                            src={row.user ? row.user.url : ""}
                           />
                         </TableCell>
                         <TableCell align="center" component="th" scope="row">

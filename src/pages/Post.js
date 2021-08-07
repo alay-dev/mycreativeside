@@ -17,6 +17,7 @@ import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
+import SendIcon from "@material-ui/icons/Send";
 import moment from "moment";
 
 import "../css/post.css";
@@ -137,7 +138,7 @@ class Post extends Component {
                         });
                         setTimeout(() => {
                           this.setState({ btn__disable: false });
-                        }, 1000);
+                        }, 2000);
                       }}
                       style={
                         post.current_post.likes.find(

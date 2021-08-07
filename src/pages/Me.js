@@ -44,12 +44,7 @@ class me extends Component {
       edit: false,
     });
   };
-  componentDidMount() {
-    this.props.set_user_name(this.props.login.name);
-    this.props.set_user_email(this.props.login.email);
-    this.props.set_user_contact_num(this.props.login.contact_no);
-    this.props.set_user_old_img(this.props.login.url);
-  }
+
   render() {
     const {
       set_user_email,
@@ -353,19 +348,6 @@ class me extends Component {
                     value={user.email}
                   />
                   <br />
-                  <br />
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Contact No."
-                    type="text"
-                    inputProps={{ maxLength: 10 }}
-                    variant="outlined"
-                    onChange={(e) => {
-                      set_user_contact_num(e.target.value);
-                    }}
-                    value={user.contact_num}
-                  />
                   <InputLabel style={{ marginTop: "0.8rem" }}>
                     Profile pic
                   </InputLabel>

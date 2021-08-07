@@ -18,6 +18,9 @@ import { Component } from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { Link as tmpLink, scroller } from "react-scroll";
+import Aos from "aos";
+import "aos/dist/aos.css";
+
 class Posts extends Component {
   constructor(props) {
     super(props);
@@ -148,7 +151,13 @@ class Posts extends Component {
             <div className="posts__right">
               {post.paginated_post.map((row) => {
                 return (
-                  <Card className="card" key={row._id}>
+                  <Card
+                    data-aos="fade-up"
+                    data-aos-anchor-placement="top-middle"
+                    data-aos-delay="900"
+                    className="card"
+                    key={row._id}
+                  >
                     <Link to={`/post/${row._id}`}>
                       <img src={row.url} className="post_img" />
                     </Link>
